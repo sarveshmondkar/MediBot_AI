@@ -1,36 +1,142 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+
 function Profile({ user, onLogout }) {
   const [orders, setOrders] = useState([]);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState({
+    age: "",
+    gender: "",
+    height: "",
+    weight: "",
+    bloodGroup: "",
+    previousDiseases: [],
+    currentMedications: [],
+    allergies: [],
+    pastSurgeries: []
+  });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchOrders();
-  }, [user]);
+  const bloodOptions = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
   const fetchOrders = async () => {
-    try {
-      const response = await fetch(`/api/orders/${user.id}`);
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.data);
+  try {
+    const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+    const data = await response.json();
+    if (data.success) {
+      setOrders(data.data);
+    }
+  } catch (err) {
+    console.error('Error fetching orders:', err);
+  }
+  };
+
+  const fetchProfile = async () => {
+  try {
+      const res = await fetch(`http://localhost:5000/api/profile/${user.id}`);
+      const data = await res.json();
+      console.log("Profile API response:", data);
+      if (data.success && data.data) {
+        setProfile((prev) => ({
+        ...prev,
+        ...data.data,
+        previousDiseases: data.data.previousDiseases || [],
+        currentMedications: data.data.currentMedications || [],
+        allergies: data.data.allergies || [],
+        pastSurgeries: data.data.pastSurgeries || []
+      }));
       }
     } catch (err) {
-      console.error('Error fetching orders:', err);
-    } finally {
-      setLoading(false);
+      console.error(err);
     }
   };
+
+useEffect(() => {
+  if (!user) {
+    navigate('/login');
+    return;
+  }
+
+  const loadData = async () => {
+    await fetchOrders();
+    await fetchProfile();
+    setLoading(false); // ✅ move here
+  };
+
+  loadData();
+}, [user]);
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
+  };
+
+  const handleTagInput = (e, field) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      const value = e.target.value.trim();
+      if (!value) return;
+
+      setProfile(prev => ({
+        ...prev,
+        [field]: [...(prev[field] || []), value]
+      }));
+
+      e.target.value = "";
+    }
+  };
+
+  const removeTag = (field, index) => {
+    const updated = [...profile[field]];
+    updated.splice(index, 1);
+    setProfile({ ...profile, [field]: updated });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setProfile({
+      ...profile,
+      [name]: e.target.type === "number" 
+        ? (value === "" ? "" : Number(value))
+        : value
+    });
+  };
+
+  const handleSave = async () => {
+  try {
+    const payload = {
+      userId: user.id,
+      healthProfile: {
+        age: profile.age || null,
+        gender: profile.gender || "",
+        height: profile.height || null,
+        weight: profile.weight || null,
+        bloodGroup: profile.bloodGroup || "",
+        previousDiseases: profile.previousDiseases || [],
+        currentMedications: profile.currentMedications || [],
+        allergies: profile.allergies || [],
+        pastSurgeries: profile.pastSurgeries || []
+      }
+    };
+
+    const res = await fetch("http://localhost:5000/api/update-health", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Profile updated ✅");
+    }
+  } catch (err) {
+    console.error(err);
+  }
   };
 
   if (loading) {
@@ -79,7 +185,7 @@ function Profile({ user, onLogout }) {
           </div>
         </div>
 
-        <div className="recent-orders">
+        {/* <div className="recent-orders">
           <h2>Recent Orders</h2>
           {orders.length === 0 ? (
             <p className="no-orders">No orders yet</p>
@@ -102,7 +208,121 @@ function Profile({ user, onLogout }) {
               ))}
             </div>
           )}
+        </div> */}
+        
+        <div className="health-profile">
+          <h2>🩺 Health Profile</h2>
+
+          <div className="health-grid">
+
+            <div className="field">
+              <label>Age</label>
+              <input
+                type="number"
+                name="age"
+                min="0"
+                max="120"
+                value={profile.age ?? ""}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field">
+              <label>Gender</label>
+              <div className="radio-group">
+                {["Male", "Female", "Other"].map(g => (
+                  <label key={g}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={g}
+                      checked={profile.gender === g}
+                      onChange={handleChange}
+                    />
+                    {g}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="field">
+              <label>Height (cm)</label>
+              <input
+                type="number"
+                name="height"
+                min="50"
+                max="250"
+                value={profile.height ?? ""}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field">
+              <label>Weight (kg)</label>
+              <input
+                type="number"
+                name="weight"
+                min="20"
+                max="200"
+                value={profile.weight ?? ""}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field">
+              <label>Blood Group</label>
+
+              <div className="custom-select">
+                <div className="selected" onClick={() => setOpen(!open)}>
+                  {profile.bloodGroup || "Select"}
+                </div>
+
+                {open && (
+                  <div className="options">
+                    {bloodOptions.map(bg => (
+                      <div
+                        key={bg}
+                        onClick={() => {
+                          setProfile({ ...profile, bloodGroup: bg });
+                          setOpen(false);
+                        }}
+                      >
+                        {bg}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* TAG INPUTS */}
+            {["previousDiseases", "currentMedications", "allergies", "pastSurgeries"].map(field => (
+              <div className="field full" key={field}>
+                <label>{field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</label>
+
+                <div className="tag-box">
+                  {(profile[field] || []).map((tag, i) => (
+                    <span key={i} className="tag">
+                      {tag}
+                      <button onClick={() => removeTag(field, i)}>×</button>
+                    </span>
+                  ))}
+
+                  <input
+                    placeholder="Press Enter to add"
+                    onKeyDown={(e) => handleTagInput(e, field)}
+                  />
+                </div>
+              </div>
+            ))}
+
+          </div>
+
+          <button className="save-btn" onClick={handleSave}>
+            💾 Save Profile
+          </button>
         </div>
+        
       </div>
     </div>
   );

@@ -1516,6 +1516,169 @@ body {
   font-size: 0.9rem;
 }
 
+/* ===== Health Profile ===== */
+.health-profile {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+}
+
+
+/* Title */
+.health-profile h2 {
+  margin-bottom: 1.2rem;
+}
+
+/* Grid */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* Field group */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field.full {
+  grid-column: span 2;
+}
+
+/* Label */
+.field label {
+  font-size: medium;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Input */
+.field input {
+  padding: 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+  font-size: 0.85rem;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+.field input:focus {
+  border-color: var(--secondary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Button */
+.save-btn {
+  margin-top: 1.2rem;
+  background: var(--secondary);
+  color: black;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.save-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Dropdown */
+.custom-select {
+  position: relative;
+}
+
+.selected {
+  padding: 0.7rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.options div {
+  padding: 0.6rem;
+  cursor: pointer;
+}
+
+.options div:hover {
+  background: var(--secondary);
+  color: black;
+}
+
+/* Radio buttons */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-group input {
+  margin-right: 5px;
+}
+
+/* TAG UI */
+.tag-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.tag {
+  background: var(--secondary);
+  color: black;
+  padding: 4px 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tag-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  flex: 1;
+  min-width: 120px;
+}
+
+.health-profile input[type=number]::-webkit-inner-spin-button,
+.health-profile input[type=number]::-webkit-outer-spin-button {
+  opacity: 0.45; /* keep visible OR set to 0 to hide */
+}
+
+
 /* Health Tips Page */
 .health-tips-page {
   padding: 7rem 2rem 3rem;

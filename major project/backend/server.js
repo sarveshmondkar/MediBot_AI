@@ -198,6 +198,35 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+// GET profile
+app.get('/api/profile/:userId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).select("-password");
+    res.json({ success: true, data: user.healthProfile || {} });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// UPDATE profile
+app.put('/api/update-health', async (req, res) => {
+  try {
+    const { userId, healthProfile } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { healthProfile } },
+      { new: true }
+    ).select("-password");
+
+    res.json({ success: true, data: updatedUser.healthProfile });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+
+
 // Get all medicines
 app.get('/api/medicines', async (req, res) => {
   const { category, search, symptom } = req.query;

@@ -13,7 +13,8 @@ import {
 } from 'react-icons/fa';
 import './App.css';
 import SymptomChecker from './pages/SymptomChecker';
-
+import Profile from './pages/Profile';
+import HealthTips from './pages/HealthTips';
 // Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -730,228 +731,228 @@ function Orders({ user }) {
   );
 }
 
-// Profile Component
-function Profile({ user, onLogout }) {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+// // Profile Component
+// function Profile({ user, onLogout }) {
+//   const [orders, setOrders] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchOrders();
-  }, [user]);
+//   useEffect(() => {
+//     if (!user) {
+//       navigate('/login');
+//       return;
+//     }
+//     fetchOrders();
+//   }, [user]);
 
-  const fetchOrders = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const fetchOrders = async () => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+//       const data = await response.json();
+//       if (data.success) {
+//         setOrders(data.data);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching orders:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const handleLogout = () => {
-    onLogout();
-    localStorage.removeItem('user');
-    navigate('/');
-  };
+//   const handleLogout = () => {
+//     onLogout();
+//     localStorage.removeItem('user');
+//     navigate('/');
+//   };
 
-  if (loading) {
-    return (
-      <div className="profile-page">
-        <div className="loading">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
-            <FaRobot size={40} />
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
+//   if (loading) {
+//     return (
+//       <div className="profile-page">
+//         <div className="loading">
+//           <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+//             <FaRobot size={40} />
+//           </motion.div>
+//         </div>
+//       </div>
+//     );
+//   }
 
-  return (
-    <div className="profile-page">
-      <motion.div 
-        className="profile-container"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <motion.div 
-          className="profile-header"
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-        >
-          <motion.div 
-            className="profile-avatar"
-            animate={{ 
-              boxShadow: ['0 0 0 0 rgba(255, 165, 9, 0.4)', '0 0 0 20px rgba(255, 165, 9, 0)', '0 0 0 0 rgba(255, 165, 9, 0.4)']
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            👤
-          </motion.div>
-          <div className="profile-info">
-            <h1>{user.name}</h1>
-            <p>{user.email}</p>
-          </div>
-        </motion.div>
+//   return (
+//     <div className="profile-page">
+//       <motion.div 
+//         className="profile-container"
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//       >
+//         <motion.div 
+//           className="profile-header"
+//           initial={{ y: -20 }}
+//           animate={{ y: 0 }}
+//         >
+//           <motion.div 
+//             className="profile-avatar"
+//             animate={{ 
+//               boxShadow: ['0 0 0 0 rgba(255, 165, 9, 0.4)', '0 0 0 20px rgba(255, 165, 9, 0)', '0 0 0 0 rgba(255, 165, 9, 0.4)']
+//             }}
+//             transition={{ duration: 2, repeat: Infinity }}
+//           >
+//             👤
+//           </motion.div>
+//           <div className="profile-info">
+//             <h1>{user.name}</h1>
+//             <p>{user.email}</p>
+//           </div>
+//         </motion.div>
 
-        <motion.div 
-          className="profile-menu"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Link to="/orders" className="profile-menu-item">
-            <span>📦</span> My Orders
-          </Link>
-          <Link to="/cart" className="profile-menu-item">
-            <span>🛒</span> Shopping Cart
-          </Link>
-          <button onClick={handleLogout} className="profile-menu-item logout">
-            <span>🚪</span> Logout
-          </button>
-        </motion.div>
+//         <motion.div 
+//           className="profile-menu"
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           transition={{ delay: 0.2 }}
+//         >
+//           <Link to="/orders" className="profile-menu-item">
+//             <span>📦</span> My Orders
+//           </Link>
+//           <Link to="/cart" className="profile-menu-item">
+//             <span>🛒</span> Shopping Cart
+//           </Link>
+//           <button onClick={handleLogout} className="profile-menu-item logout">
+//             <span>🚪</span> Logout
+//           </button>
+//         </motion.div>
 
-        <motion.div 
-          className="profile-stats"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="stat-card">
-            <span className="stat-icon">📦</span>
-            <span className="stat-value">{orders.length}</span>
-            <span className="stat-label">Total Orders</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">💰</span>
-            <span className="stat-value">
-              ${orders.reduce((sum, o) => sum + o.total, 0).toFixed(2)}
-            </span>
-            <span className="stat-label">Total Spent</span>
-          </div>
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
+//         <motion.div 
+//           className="profile-stats"
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           transition={{ delay: 0.3 }}
+//         >
+//           <div className="stat-card">
+//             <span className="stat-icon">📦</span>
+//             <span className="stat-value">{orders.length}</span>
+//             <span className="stat-label">Total Orders</span>
+//           </div>
+//           <div className="stat-card">
+//             <span className="stat-icon">💰</span>
+//             <span className="stat-value">
+//               ${orders.reduce((sum, o) => sum + o.total, 0).toFixed(2)}
+//             </span>
+//             <span className="stat-label">Total Spent</span>
+//           </div>
+//         </motion.div>
+//       </motion.div>
+//     </div>
+//   );
+// }
 
-// Health Tips Component
-function HealthTips() {
-  const [tips, setTips] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [loading, setLoading] = useState(true);
+// // Health Tips Component
+// function HealthTips() {
+//   const [tips, setTips] = useState([]);
+//   const [selectedCategory, setSelectedCategory] = useState('All');
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchTips();
-  }, []);
+//   useEffect(() => {
+//     fetchTips();
+//   }, []);
 
-  const fetchTips = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/health-tips');
-      const data = await response.json();
-      if (data.success) {
-        setTips(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching tips:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const fetchTips = async () => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/health-tips');
+//       const data = await response.json();
+//       if (data.success) {
+//         setTips(data.data);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching tips:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const categories = ['All', ...new Set(tips.map(tip => tip.category))];
+//   const categories = ['All', ...new Set(tips.map(tip => tip.category))];
   
-  const filteredTips = selectedCategory === 'All' 
-    ? tips 
-    : tips.filter(tip => tip.category === selectedCategory);
+//   const filteredTips = selectedCategory === 'All' 
+//     ? tips 
+//     : tips.filter(tip => tip.category === selectedCategory);
 
-  const categoryIcons = {
-    'General': '🌟',
-    'Fitness': '🏃',
-    'Nutrition': '🥗',
-    'Hygiene': '🧼',
-    'Mental Health': '🧘',
-    'Prevention': '🛡️'
-  };
+//   const categoryIcons = {
+//     'General': '🌟',
+//     'Fitness': '🏃',
+//     'Nutrition': '🥗',
+//     'Hygiene': '🧼',
+//     'Mental Health': '🧘',
+//     'Prevention': '🛡️'
+//   };
 
-  return (
-    <div className="health-tips-page">
-      <motion.div 
-        className="health-tips-container"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <motion.div 
-          className="health-tips-header"
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-        >
-          <h1>💡 Health Tips</h1>
-          <p>Stay healthy with these helpful tips</p>
-        </motion.div>
+//   return (
+//     <div className="health-tips-page">
+//       <motion.div 
+//         className="health-tips-container"
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//       >
+//         <motion.div 
+//           className="health-tips-header"
+//           initial={{ y: -20 }}
+//           animate={{ y: 0 }}
+//         >
+//           <h1>💡 Health Tips</h1>
+//           <p>Stay healthy with these helpful tips</p>
+//         </motion.div>
 
-        <motion.div 
-          className="tips-category-filter"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          {categories.map((cat, index) => (
-            <motion.button
-              key={cat}
-              className={`tip-category-btn ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {categoryIcons[cat] || '📌'} {cat}
-            </motion.button>
-          ))}
-        </motion.div>
+//         <motion.div 
+//           className="tips-category-filter"
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           transition={{ delay: 0.2 }}
+//         >
+//           {categories.map((cat, index) => (
+//             <motion.button
+//               key={cat}
+//               className={`tip-category-btn ${selectedCategory === cat ? 'active' : ''}`}
+//               onClick={() => setSelectedCategory(cat)}
+//               whileHover={{ scale: 1.05 }}
+//               whileTap={{ scale: 0.95 }}
+//             >
+//               {categoryIcons[cat] || '📌'} {cat}
+//             </motion.button>
+//           ))}
+//         </motion.div>
 
-        {loading ? (
-          <div className="loading">
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
-              <FaRobot size={40} />
-            </motion.div>
-          </div>
-        ) : (
-          <motion.div 
-            className="tips-grid"
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-          >
-            {filteredTips.map((tip, index) => (
-              <motion.div 
-                key={tip.id} 
-                className="tip-card"
-                variants={fadeInUp}
-                whileHover={{ y: -5 }}
-              >
-                <div className="tip-icon">
-                  {categoryIcons[tip.category] || '💡'}
-                </div>
-                <h3>{tip.title}</h3>
-                <p>{tip.content}</p>
-                <span className="tip-category">{tip.category}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </motion.div>
-    </div>
-  );
-}
+//         {loading ? (
+//           <div className="loading">
+//             <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+//               <FaRobot size={40} />
+//             </motion.div>
+//           </div>
+//         ) : (
+//           <motion.div 
+//             className="tips-grid"
+//             variants={staggerContainer}
+//             initial="initial"
+//             animate="animate"
+//           >
+//             {filteredTips.map((tip, index) => (
+//               <motion.div 
+//                 key={tip.id} 
+//                 className="tip-card"
+//                 variants={fadeInUp}
+//                 whileHover={{ y: -5 }}
+//               >
+//                 <div className="tip-icon">
+//                   {categoryIcons[tip.category] || '💡'}
+//                 </div>
+//                 <h3>{tip.title}</h3>
+//                 <p>{tip.content}</p>
+//                 <span className="tip-category">{tip.category}</span>
+//               </motion.div>
+//             ))}
+//           </motion.div>
+//         )}
+//       </motion.div>
+//     </div>
+//   );
+// }
 
 // Home Component with Improved Chatbot
 function Home({ user, onLogin }) {
