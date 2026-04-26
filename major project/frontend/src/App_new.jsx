@@ -1322,7 +1322,7 @@ function Home({ user, onLogin }) {
               variants={fadeInUp}
               whileHover={{ scale: 1.05, y: -5 }}
             >
-              <Link to="/shop" className="category-card-new" style={{ '--category-color': cat.color }}>
+              <Link to={`/shop?category=${encodeURIComponent(cat.name)}`} className="category-card-new" style={{ '--category-color': cat.color }}>
                 <span className="category-icon">{cat.icon}</span>
                 <span className="category-name">{cat.name}</span>
               </Link>

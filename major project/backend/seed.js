@@ -2236,6 +2236,68 @@ const healthTips = [
   { title: 'Manage Stress', content: 'Practice meditation or deep breathing to reduce stress levels.', category: 'Mental Health' },
   { title: 'Regular Check-ups', content: 'Visit your doctor for regular health screenings.', category: 'Prevention' },
   { title: 'Limit Sugar Intake', content: 'Reduce consumption of sugary foods and drinks.', category: 'Nutrition' },
+
+  // 🔽 Added tips
+  { title: 'Avoid Junk Food', content: 'Limit intake of processed and fast foods high in unhealthy fats.', category: 'Nutrition' },
+  { title: 'Maintain Healthy Weight', content: 'Keep your body weight within a healthy range to prevent diseases.', category: 'Fitness' },
+  { title: 'Quit Smoking', content: 'Avoid tobacco products to reduce the risk of serious diseases.', category: 'Prevention' },
+  { title: 'Limit Alcohol', content: 'Consume alcohol in moderation or avoid it completely.', category: 'Prevention' },
+  { title: 'Practice Good Posture', content: 'Maintain proper posture while sitting and standing to avoid back pain.', category: 'General' },
+  { title: 'Take Breaks from Screens', content: 'Follow the 20-20-20 rule to reduce eye strain.', category: 'General' },
+  { title: 'Stay Active', content: 'Avoid sitting for long periods; move around frequently.', category: 'Fitness' },
+  { title: 'Eat More Fiber', content: 'Include fiber-rich foods like fruits, vegetables, and legumes.', category: 'Nutrition' },
+  { title: 'Protect Your Skin', content: 'Use sunscreen to protect your skin from harmful UV rays.', category: 'Prevention' },
+  { title: 'Stay Socially Connected', content: 'Maintain healthy relationships for better mental well-being.', category: 'Mental Health' },
+  { title: 'Practice Mindfulness', content: 'Be present in the moment to improve mental clarity.', category: 'Mental Health' },
+  { title: 'Drink Herbal Teas', content: 'Herbal teas can aid digestion and relaxation.', category: 'Nutrition' },
+  { title: 'Avoid Late Night Eating', content: 'Eating late can affect digestion and sleep quality.', category: 'Nutrition' },
+  { title: 'Stretch Daily', content: 'Stretching improves flexibility and reduces muscle stiffness.', category: 'Fitness' },
+  { title: 'Maintain Oral Hygiene', content: 'Brush and floss daily to keep your teeth and gums healthy.', category: 'Hygiene' },
+  { title: 'Stay Vaccinated', content: 'Keep up with recommended vaccinations for disease prevention.', category: 'Prevention' },
+  { title: 'Get Fresh Air', content: 'Spend time outdoors to improve mood and oxygen intake.', category: 'General' },
+  { title: 'Limit Salt Intake', content: 'Too much salt can increase blood pressure.', category: 'Nutrition' },
+  { title: 'Keep Your Environment Clean', content: 'A clean space reduces the risk of infections.', category: 'Hygiene' },
+  { title: 'Practice Gratitude', content: 'Being thankful can improve mental well-being.', category: 'Mental Health' },
+  { title: 'Stay Consistent', content: 'Consistency in healthy habits leads to long-term benefits.', category: 'General' },
+
+    // 🔽 More extended tips
+  { title: 'Eat Seasonal Fruits', content: 'Seasonal fruits are fresher and more nutritious.', category: 'Nutrition' },
+  { title: 'Stay Consistent with Routine', content: 'A daily routine helps maintain physical and mental balance.', category: 'General' },
+  { title: 'Avoid Overeating', content: 'Control portion sizes to prevent digestive issues and weight gain.', category: 'Nutrition' },
+  { title: 'Include Protein in Diet', content: 'Protein supports muscle growth and repair.', category: 'Nutrition' },
+  { title: 'Warm Up Before Exercise', content: 'Warming up reduces risk of injuries.', category: 'Fitness' },
+  { title: 'Cool Down After Workout', content: 'Helps your body recover and prevents muscle soreness.', category: 'Fitness' },
+  { title: 'Take Mental Breaks', content: 'Short breaks during work improve productivity and reduce burnout.', category: 'Mental Health' },
+  { title: 'Avoid Multitasking', content: 'Focus on one task at a time for better efficiency.', category: 'Mental Health' },
+  { title: 'Stay Positive', content: 'Positive thinking can improve overall well-being.', category: 'Mental Health' },
+  { title: 'Limit Caffeine Intake', content: 'Too much caffeine can affect sleep and increase anxiety.', category: 'Nutrition' },
+  { title: 'Stay Clean and Groomed', content: 'Personal hygiene boosts confidence and prevents infections.', category: 'Hygiene' },
+  { title: 'Use Clean Drinking Water', content: 'Always ensure your water is safe and purified.', category: 'Hygiene' },
+  { title: 'Ventilate Your Room', content: 'Proper airflow reduces indoor pollutants.', category: 'General' },
+  { title: 'Avoid Smoking Areas', content: 'Secondhand smoke is harmful to health.', category: 'Prevention' },
+  { title: 'Maintain Work-Life Balance', content: 'Balance work and personal life to avoid burnout.', category: 'Mental Health' },
+  { title: 'Take Care of Your Eyes', content: 'Reduce screen brightness and blink often.', category: 'General' },
+  { title: 'Use Ergonomic Furniture', content: 'Proper seating prevents long-term posture issues.', category: 'General' },
+  { title: 'Stay Motivated', content: 'Set small achievable goals to stay consistent.', category: 'Mental Health' },
+  { title: 'Practice Deep Breathing', content: 'Helps calm the mind and improves oxygen flow.', category: 'Mental Health' },
+  { title: 'Spend Time in Nature', content: 'Nature exposure improves mood and reduces stress.', category: 'Mental Health' },
+  { title: 'Avoid Skipping Meals', content: 'Skipping meals can lead to low energy levels.', category: 'Nutrition' },
+  { title: 'Cook at Home', content: 'Home-cooked meals are usually healthier and safer.', category: 'Nutrition' },
+  { title: 'Limit Screen Time Before Bed', content: 'Blue light affects sleep quality.', category: 'General' },
+  { title: 'Keep Emergency Contacts Ready', content: 'Be prepared for unexpected health situations.', category: 'Prevention' },
+  { title: 'Stay Educated About Health', content: 'Awareness helps in early detection and prevention.', category: 'Prevention' },
+  { title: 'Laugh More', content: 'Laughter reduces stress and boosts immunity.', category: 'Mental Health' },
+  { title: 'Avoid Sitting Too Long', content: 'Stand or walk every hour to improve circulation.', category: 'Fitness' },
+  { title: 'Track Your Health', content: 'Monitor weight, steps, and habits regularly.', category: 'General' },
+  { title: 'Drink Water After Waking Up', content: 'Helps kickstart metabolism.', category: 'Nutrition' },
+  { title: 'Avoid Excess Oil in Food', content: 'Too much oil can lead to heart problems.', category: 'Nutrition' },
+  { title: 'Stay Prepared for Weather', content: 'Dress according to climate to avoid illness.', category: 'Prevention' },
+  { title: 'Practice Self-Care', content: 'Take time for yourself to relax and recharge.', category: 'Mental Health' },
+  { title: 'Maintain Clean Surroundings', content: 'Clean environments reduce disease risks.', category: 'Hygiene' },
+  { title: 'Use Masks When Needed', content: 'Protect yourself in crowded or polluted areas.', category: 'Prevention' },
+  { title: 'Keep Moving Daily', content: 'Even light activity is better than being inactive.', category: 'Fitness' },
+  { title: 'Eat Slowly', content: 'Helps digestion and prevents overeating.', category: 'Nutrition' },
+  { title: 'Stay Disciplined', content: 'Discipline is key to maintaining a healthy lifestyle.', category: 'General' }
 ];
 
 export const seedDatabase = async () => {
@@ -2245,7 +2307,6 @@ export const seedDatabase = async () => {
 
     // Clear existing data
     await Medicine.deleteMany({});
-    await HealthTip.deleteMany({});
     console.log('Cleared existing data');
 
     // Seed medicines
@@ -2253,6 +2314,7 @@ export const seedDatabase = async () => {
     console.log('Seeded medicines');
 
     // Seed health tips
+    await HealthTip.deleteMany({});
     await HealthTip.insertMany(healthTips);
     console.log('Seeded health tips');
 

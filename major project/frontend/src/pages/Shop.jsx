@@ -1,27 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+
 
 function Shop({ user }) {
   const [medicines, setMedicines] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  console.log("SHOP COMPONENT RENDERED");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get("category");
 
   useEffect(() => {
     fetchCategories();
-    fetchMedicines();
-    console.log("SHOP COMPONENT RENDERED");
   }, []);
 
   useEffect(() => {
-    fetchCategories();
+    if (selectedCategory === null) return; // ⛔ STOP early fetch
     fetchMedicines();
-    console.log("SHOP COMPONENT RENDERED");
   }, [selectedCategory, searchTerm, page]);
+
+  useEffect(() => {
+    if (category) {
+      setSelectedCategory(category);
+    } else {
+      setSelectedCategory('All');
+    }
+    setPage(1);
+  }, [category]);
 
   const fetchCategories = async () => {
     try {
@@ -57,6 +67,7 @@ function Shop({ user }) {
         setMedicines(data.data);
         setTotalPages(data.totalPages||1);
       }
+      console.log("Sending category:", selectedCategory);
       
 
     } catch (err) {

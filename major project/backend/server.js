@@ -238,7 +238,9 @@ app.get('/api/medicines', async (req, res) => {
     let query = {};
 
     if (category && category !== "All") {
-      query.category = category;
+      query.category = { 
+        $regex: new RegExp(`^${category}$`, 'i') 
+      };
     }
 
     if (search) {
