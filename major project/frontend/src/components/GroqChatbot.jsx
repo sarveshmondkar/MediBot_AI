@@ -4,7 +4,7 @@ import { FaRobot, FaTimes, FaLocationArrow, FaStethoscope, FaUserAlt, FaRedo } f
 import { GoogleGenAI } from "@google/genai";
 import './GroqChatbot.css';
 
-const GEMINI_API_KEY = "AIzaSyCIyJ-ZRJRvyKC6OSz0YpexDAYrrFNSj-c";
+const GEMINI_API_KEY = "AIzaSyD3TmsKMgOBp0UADX3xuWh-kgPK0XJ-duE";
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 export default function GroqChatbot() {
@@ -56,11 +56,46 @@ export default function GroqChatbot() {
         model: "gemini-3-flash-preview",
         contents: requestContents,
         config: {
-          systemInstruction: "You are MediBot, a highly advanced, empathetic, and professional AI assistant. While you specialize in medical and health-related advice, you should also happily and accurately answer general knowledge queries on any topic. Be concise, helpful, and use Markdown for formatting (like **bold** for emphasis or bullet points). If the user asks a medical question, include a brief disclaimer to consult a doctor."
+          systemInstruction: `
+            You are MediBot, a friendly, empathetic AI health assistant.
+
+            Your goals:
+            - Speak naturally like a caring human, NOT like a robotic assistant
+            - Be warm, reassuring, and conversational
+            - Avoid repeating phrases like "I understand you're asking"
+            - Give clear, helpful responses in simple language
+
+            For symptom-related queries:
+            1. Acknowledge the user's feeling naturally
+            2. Suggest possible common causes (not diagnoses)
+            3. Give practical next steps
+            4. Mention when to see a doctor (only if needed)
+
+            Keep responses:
+            - Short to medium length
+            - Easy to read
+            - Supportive, not scary
+
+            DO NOT:
+            - Sound robotic or overly formal
+            - Repeat the user’s question
+            - Give generic fallback responses
+
+            Example tone:
+            "That sounds uncomfortable 😕 dizziness can happen for a few simple reasons like dehydration or low blood sugar..."
+
+            Always include a short medical disclaimer ONLY when giving health-related advice.
+            `
         }
       });
 
-      const botResponse = response.text;
+      const cleanResponse = (text) => {
+        return text
+          .replace(/I understand.*?\./gi, '')
+          .replace(/As an AI.*?\./gi, '')
+          .trim();
+      };  
+      const botResponse = cleanResponse(response.text);
 
       setMessages(prev => [
         ...prev,

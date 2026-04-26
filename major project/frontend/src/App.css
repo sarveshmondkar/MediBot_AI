@@ -70,6 +70,35 @@ body {
   border-bottom: 1px solid rgba(255, 165, 9, 0.2);
 }
 
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--secondary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--secondary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
 .logo {
   font-size: 1.75rem;
   font-weight: 800;
@@ -185,6 +214,67 @@ body {
   color: var(--secondary);
   font-weight: 500;
   font-size: 0.9rem;
+}
+
+/* Overlay (same theme as symptom checker) */
+.emergency-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 44, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal */
+.emergency-modal {
+  background: linear-gradient(
+    145deg,
+    #ffffff,
+    #fff7ec
+  );
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,165,9,0.2);
+}
+
+/* Title (changed from red → orange theme) */
+.emergency-modal h2 {
+  margin-bottom: 20px;
+  color: #ff0909;
+}
+
+/* Items */
+.emergency-item {
+  margin: 12px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Optional: highlight numbers */
+.emergency-item strong {
+  color: #ff6b00;
+}
+
+/* Close button (same as symptom checker) */
+.close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffa509, #ff6b00);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(255,165,9,0.3);
 }
 
 /* Hero Section */

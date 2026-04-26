@@ -18,6 +18,7 @@ import HealthTips from './pages/HealthTips';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
+import GroqChatbot from './components/GroqChatbot';
 
 
 // Animation variants
@@ -962,115 +963,8 @@ function Signup({ onLogin }) {
 // Home Component with Improved Chatbot
 function Home({ user, onLogin }) {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { id: 1, type: 'bot', text: "Hello! I'm MediBot AI 🤖\n\nI can help you with:\n• Health information & advice\n• Medicine recommendations\n• Symptom analysis\n• General health questions\n\nJust describe your symptoms or ask a question!" }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  // Improved chatbot with comprehensive responses
-  const getRecommendation = async (userInput) => {
-    const input = userInput.toLowerCase();
-    
-    // Check for greetings
-    if (input.includes('hello') || input.includes('hi') || input.includes('hey') || input.includes('greetings')) {
-      return "Hello! Welcome to MediBot AI! I'm here to help you with health information, medicine recommendations, and symptom analysis. How can I assist you today?";
-    }
-    
-    // Check for thanks/gratitude
-    if (input.includes('thank')) {
-      return "You're welcome! I'm happy to help. Feel free to ask any health-related questions or describe your symptoms if you need medicine recommendations. Take care!";
-    }
-    
-    // Check for goodbye
-    if (input.includes('bye') || input.includes('goodbye')) {
-      return "Goodbye! Take care of your health. Don't hesitate to return if you need any assistance. Stay healthy!";
-    }
-    
-    // Check for common health topics
-    if (input.includes('fever') || input.includes('temperature')) {
-      return "Fever is usually a sign that your body is fighting an infection. Suggestions: Rest and stay hydrated, Take fever-reducing medicine (Paracetamol/Ibuprofen). Please consult a doctor if fever persists more than 3 days.";
-    }
-    
-    if (input.includes('cold') || input.includes('cough') || input.includes('flu')) {
-      return "For Cold & Flu: Rest and drink warm fluids, Vitamin C supplements, Honey for sore throat. Common medicines: Cetirizine, Cough syrups. Consult doctor if symptoms worsen.";
-    }
-    
-    if (input.includes('headache') || input.includes('head pain')) {
-      return "For Headache: Rest in a quiet dark room, Stay hydrated, Over-the-counter pain relievers. Seek medical attention for severe or persistent headaches.";
-    }
-    
-    if (input.includes('stomach') || input.includes('nausea') || input.includes('vomit') || input.includes('digestion')) {
-      return "For Digestive Issues: Drink ginger tea, Eat light foods, Avoid spicy/oily foods. Common medicines: Antacids, Omeprazole. Consult doctor if persistent.";
-    }
-    
-    if (input.includes('diabetes') || input.includes('sugar')) {
-      return "For Diabetes: Monitor blood sugar regularly, Eat balanced meals, Exercise regularly. Common medications: Metformin. Always consult an endocrinologist for proper diagnosis.";
-    }
-    
-    if (input.includes('blood pressure') || input.includes('hypertension')) {
-      return "For Blood Pressure: Reduce salt intake, Exercise regularly, Manage stress. Consult doctor for proper diagnosis and medication.";
-    }
-    
-    if (input.includes('pain') || input.includes('ache')) {
-      return "Pain Relief Options: Paracetamol (Acetaminophen), Ibuprofen, Aspirin. Always follow dosage instructions and consult doctor for chronic pain.";
-    }
-    
-    if (input.includes('allergy') || input.includes('allergic')) {
-      return "For Allergy Relief: Cetirizine (Zyrtec), Loratadine (Claritin). Tips: Identify and avoid allergens. Severe allergic reactions need immediate medical attention.";
-    }
-    
-    if (input.includes('vitamin') || input.includes('supplement')) {
-      return "Common supplements: Vitamin D for bone health, Vitamin C for immunity, B-complex for energy, Iron for anemia. Consult doctor before starting any supplement.";
-    }
-    
-    if (input.includes('sleep') || input.includes('insomnia')) {
-      return "Sleep Tips: Maintain regular sleep schedule, Avoid caffeine before bed, Create relaxing bedtime routine. Consult doctor for chronic insomnia.";
-    }
-    
-    if (input.includes('skin') || input.includes('rash') || input.includes('acne')) {
-      return "Skin Care: Keep skin clean and moisturized, Use sunscreen daily, Stay hydrated. Consult dermatologist for persistent issues.";
-    }
-    
-    // Try backend API
-    try {
-      const response = await fetch(`http://localhost:5000/api/medicines?symptom=${encodeURIComponent(userInput)}`);
-      const data = await response.json();
-      
-      if (data.success && data.data && data.data.medicines && data.data.medicines.length > 0) {
-        return `Based on "${userInput}":\n\nRecommended Medicines:\n${data.data.medicines.map(m => `- ${m}`).join('\n')}\n\nAdvice: ${data.data.advice || 'Please consult a doctor before taking any medication.'}`;
-      }
-    } catch (err) {
-      console.error('Error getting recommendation:', err);
-    }
-    
-    // Default response
-    return `I understand you're asking about "${userInput}". As your health assistant, I can help with symptom analysis, medicine recommendations, and general health information. Please describe your symptoms or ask a specific health question.`;
-  };
-
-  const handleSend = async () => {
-    if (!input.trim() || loading) return;
-    
-    const userMessage = { id: Date.now(), type: 'user', text: input };
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setLoading(true);
-    
-    setTimeout(async () => {
-      const botText = await getRecommendation(input);
-      const botResponse = { 
-        id: Date.now() + 1, 
-        type: 'bot', 
-        text: botText 
-      };
-      setMessages(prev => [...prev, botResponse]);
-      setLoading(false);
-    }, 1000);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') handleSend();
-  };
+  const [showSymptomChecker, setShowSymptomChecker] = useState(false);
+  const [showEmergency, setShowEmergency] = useState(false);
 
   const features = [
     { icon: <FaRobot />, title: 'AI Symptom Checker', desc: 'Get instant AI-powered health recommendations', color: '#ffa509' },
@@ -1115,7 +1009,12 @@ function Home({ user, onLogin }) {
         </div>
         <nav className="nav">
           <Link to="/">Home</Link>
-          <Link to="/symptom-checker">Symptom Checker</Link>
+          <span 
+            className="nav-link"
+            onClick={() => setShowSymptomChecker(true)}
+          >
+            Symptom Checker
+          </span>
           <Link to="/shop">Shop</Link>
           <Link to="/health-tips">Health Tips</Link>
           {user && <Link to="/profile">Profile</Link>}
@@ -1136,11 +1035,57 @@ function Home({ user, onLogin }) {
             className="emergency-btn"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => setShowEmergency(true)}
           >
             🚨 Emergency
           </motion.button>
         </div>
       </motion.header>
+      {showSymptomChecker && (
+        <SymptomChecker onClose={() => setShowSymptomChecker(false)} />
+      )}
+      <AnimatePresence>
+          {showEmergency && (
+            <motion.div 
+              className="emergency-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.div 
+                className="emergency-modal"
+                initial={{ scale: 0.8, y: 50 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.8, y: 50 }}
+              >
+                <h2>🚨 EMERGENCY HELP</h2>
+
+                <div className="emergency-item">
+                  <strong>📞 Ambulance:</strong> 102 / 108
+                </div>
+
+                <div className="emergency-item">
+                  <strong>👮 Police:</strong> 100
+                </div>
+
+                <div className="emergency-item">
+                  <strong>🔥 Fire Brigade:</strong> 101
+                </div>
+
+                <div className="emergency-item">
+                  <strong>📧 Email:</strong> support@medibot.ai
+                </div>
+
+                <button 
+                  className="close-btn"
+                  onClick={() => setShowEmergency(false)}
+                >
+                  Close
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       {/* Hero Section */}
       <section className="hero">
@@ -1179,8 +1124,7 @@ function Home({ user, onLogin }) {
               className="hero-btn-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsChatOpen(true)}
-            >
+              onClick={() => window.dispatchEvent(new Event('open-groq-chat'))}            >
               <FaRobot /> Try AI Chat
             </motion.button>
             <Link to="/shop" className="hero-btn-secondary">
@@ -1376,73 +1320,8 @@ function Home({ user, onLogin }) {
       </section>
 
       {/* Chatbot */}
-      <AnimatePresence>
-        {isChatOpen && (
-          <motion.div 
-            className="chatbot-container-new"
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-          >
-            <div className="chatbot-new">
-              <div className="chatbot-header-new">
-                <span>🤖 MediBot AI</span>
-                <button onClick={() => setIsChatOpen(false)}>✕</button>
-              </div>
-              <div className="chatbot-messages-new">
-                {messages.map(msg => (
-                  <motion.div 
-                    key={msg.id} 
-                    className={`message-new ${msg.type}`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <div className="message-content-new">{msg.text}</div>
-                  </motion.div>
-                ))}
-                {loading && (
-                  <div className="message-new bot">
-                    <div className="message-content-new typing">
-                      <span>•</span><span>•</span><span>•</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="chatbot-input-new">
-                <input 
-                  type="text" 
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Describe your symptoms..." 
-                />
-                <motion.button 
-                  onClick={handleSend}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  disabled={loading}
-                >
-                  ➤
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      <GroqChatbot />
       {/* Chat Toggle Button */}
-      {!isChatOpen && (
-        <motion.button 
-          className="chat-toggle-btn"
-          onClick={() => setIsChatOpen(true)}
-          animate={{ 
-            boxShadow: ['0 0 0 0 rgba(255, 165, 9, 0.4)', '0 0 0 20px rgba(255, 165, 9, 0)', '0 0 0 0 rgba(255, 165, 9, 0.4)']
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <FaRobot size={28} />
-        </motion.button>
-      )}
 
       {/* Footer */}
       <footer className="footer">
@@ -1460,12 +1339,12 @@ function Home({ user, onLogin }) {
           </div>
           <div className="footer-section">
             <h4>Contact</h4>
-            <p>📞 Emergency: 1-800-MEDICARE</p>
+            <p>📞 Emergency: 1-800-000-000</p>
             <p>📧 support@medibot.ai</p>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2024 MediBot AI. All rights reserved. ⚠️ Consult doctor before medication.</p>
+          <p>© 2026 MediBot AI. All rights reserved. ⚠️ Consult doctor before medication.</p>
         </div>
       </footer>
     </div>

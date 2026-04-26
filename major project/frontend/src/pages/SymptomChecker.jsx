@@ -5,7 +5,7 @@ import { FaStethoscope, FaSearch, FaPills, FaHeartbeat, FaShieldVirus, FaTimes, 
 import { symptomsList, formatSymptom, diseasesData, getAllDiseases } from '../data';
 
 function SymptomChecker({ onClose }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [predictedDisease, setPredictedDisease] = useState(null);
@@ -13,11 +13,7 @@ function SymptomChecker({ onClose }) {
 
   // Handle close - either call onClose prop or navigate back
   const handleClose = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      navigate('/');
-    }
+  if (onClose) onClose();
   };
 
   // Filter symptoms based on search
