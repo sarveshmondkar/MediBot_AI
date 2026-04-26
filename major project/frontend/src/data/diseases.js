@@ -4,7 +4,7 @@ export const diseasesData = {
     symptoms: ["itching", "skin_rash", "nodal_skin_eruptions"],
     description: "Fungal infection is a common skin condition caused by fungi.",
     precautions: ["Bath twice", "Use detol or neem in bathing water", "Keep infected area dry", "Use clean cloths"],
-    medications: ["Antifungal Cream", "Fluconazole", "Terbinafine", "Clotrimazole", "Ketoconazole"],
+    medications: ["Clotrimazole Cream 1%","Fluconazole 150mg","Terbinafine Cream 1%","Ketoconazole Cream 2%"],
     workouts: ["Avoid sugary foods", "Consume probiotics", "Increase intake of garlic", "Include yogurt in diet", "Limit processed foods", "Stay hydrated", "Consume green tea", "Eat foods rich in zinc", "Include turmeric in diet", "Eat fruits and vegetables"],
     diets: ["Antifungal Diet", "Probiotics", "Garlic", "Coconut oil", "Turmeric"]
   },
@@ -12,7 +12,7 @@ export const diseasesData = {
     symptoms: ["continuous_sneezing", "shivering", "chills", "watery_from_eyes"],
     description: "Allergy is an immune system reaction to a foreign substance that's not typically harmful to your body.",
     precautions: ["Avoid dust", "Use air purifier", "Stay indoors during high pollen count", "Wash hands frequently"],
-    medications: ["Antihistamines", "Decongestants", "Nasal sprays", "Eye drops", "Corticosteroids"],
+    medications: ["Cetirizine 10mg","Loratadine 10mg","Fexofenadine 180mg","Fluticasone Nasal Spray","Hydrocortisone Cream"],
     workouts: ["Regular exercise", "Yoga", "Meditation for stress management", "Avoid outdoor exercise during peak allergy season"],
     diets: ["Local honey", "Omega-3 rich foods", "Vitamin C rich foods", "Avoid dairy", "Stay hydrated"]
   },
@@ -20,7 +20,7 @@ export const diseasesData = {
     symptoms: ["chest_pain", "acidity", "cough", "throat_irritation"],
     description: "Gastroesophageal reflux disease is a chronic digestive disease where stomach acid flows back into the esophagus.",
     precautions: ["Avoid spicy foods", "Eat smaller meals", "Don't lie down after eating", "Elevate head while sleeping"],
-    medications: ["Antacids", "H2 blockers", "Proton pump inhibitors", "Prokinetics"],
+    medications: ["Omeprazole 20mg","Pantoprazole 40mg","Antacid Tablets","Famotidine 20mg"],
     workouts: ["Walking", "Light cycling", "Swimming", "Avoid intense exercises after meals"],
     diets: ["Low-fat foods", "Ginger", "Oatmeal", "Avoid citrus and tomatoes"]
   },
@@ -60,7 +60,7 @@ export const diseasesData = {
     symptoms: ["fatigue", "weight_loss", "restlessness", "lethargy", "irregular_sugar_level"],
     description: "Diabetes is a chronic disease that occurs when the pancreas doesn't produce enough insulin.",
     precautions: ["Monitor blood sugar", "Take medications regularly", "Maintain healthy diet", "Regular exercise"],
-    medications: ["Metformin", "Insulin", "SGLT2 inhibitors", "GLP-1 receptor agonists"],
+    medications: ["Metformin 500mg","Insulin Injection","Glimepiride 2mg"],
     workouts: ["Regular cardio", "Walking", "Swimming", "Cycling", "Strength training"],
     diets: ["Low-carb foods", "High fiber", "Avoid sugary foods", "Regular meal timing"]
   },
@@ -84,7 +84,7 @@ export const diseasesData = {
     symptoms: ["headache", "chest_pain", "dizziness", "shortness_of_breath", "nosebleed"],
     description: "Hypertension is high blood pressure that can lead to serious health problems.",
     precautions: ["Reduce salt intake", "Manage stress", "Regular exercise", "Limit alcohol"],
-    medications: ["ACE inhibitors", "ARBs", "Diuretics", "Beta blockers", "Calcium channel blockers"],
+    medications: ["Amlodipine 5mg","Losartan 50mg","Atenolol 50mg"],
     workouts: ["Aerobic exercise", "Walking", "Swimming", "Cycling", "Yoga"],
     diets: ["DASH diet", "Low sodium", "Fruits and vegetables", "Whole grains"]
   },
@@ -92,7 +92,7 @@ export const diseasesData = {
     symptoms: ["headache", "nausea", "sensitivity_to_light", "visual_disturbances", "dizziness"],
     description: "Migraine is a neurological condition causing intense headaches and other symptoms.",
     precautions: ["Identify triggers", "Manage stress", "Regular sleep schedule", "Avoid bright lights"],
-    medications: ["Triptans", "NSAIDs", "Antiemetics", "Preventive medications"],
+    medications: ["Ibuprofen 400mg","Paracetamol 500mg","Aspirin 325mg","Ondansetron 4mg"],
     workouts: ["Regular exercise", "Yoga", "Meditation", "Avoid intense exercise during attack"],
     diets: ["Regular meals", "Avoid caffeine", "Stay hydrated", "Limit processed foods"]
   },
@@ -140,7 +140,7 @@ export const diseasesData = {
     symptoms: ["high_fever", "headache", "joint_pain", "muscle_pain", "rash", "fatigue"],
     description: "Dengue is a mosquito-borne viral infection causing severe flu-like symptoms.",
     precautions: ["Avoid mosquitoes", "Use mosquito nets", "Wear protective clothing", "Rest adequately"],
-    medications: ["Acetaminophen", "NSAIDs (avoid aspirin)", "ORS", "Platelet transfusion if needed"],
+    medications: ["Paracetamol 500mg","ORS Solution"],
     workouts: ["Complete rest", "Light walking when recovering", "Gradual return to activity"],
     diets: ["Fluids", "Papaya leaf extract", "Vitamin C rich foods", "High protein"]
   },
@@ -212,7 +212,7 @@ export const diseasesData = {
     symptoms: ["runny_nose", "sneezing", "congestion", "sore_throat", "cough", "mild_fever"],
     description: "Common cold is a viral infection of the upper respiratory tract.",
     precautions: ["Wash hands frequently", "Avoid close contact with sick people", "Stay hydrated", "Rest"],
-    medications: ["Decongestants", "Cough suppressants", "Pain relievers", "Antihistamines"],
+    medications: ["Paracetamol 500mg","Cetirizine 10mg","Phenylephrine 10mg","Cough Syrup DM"],
     workouts: ["Rest during acute phase", "Light walking when feeling better", "Avoid intense exercise"],
     diets: ["Hot fluids", "Vitamin C", "Chicken soup", "Honey", "Stay hydrated"]
   },
@@ -220,7 +220,7 @@ export const diseasesData = {
     symptoms: ["cough", "high_fever", "chills", "breathlessness", "chest_pain", "fatigue"],
     description: "Pneumonia is an infection that inflames the air sacs in one or both lungs.",
     precautions: ["Get vaccinated", "Practice good hygiene", "Quit smoking", "Stay away from sick people"],
-    medications: ["Antibiotics", "Cough medicine", "Fever reducers", "Oxygen therapy if needed"],
+    medications: ["Amoxicillin 500mg","Azithromycin 500mg","Paracetamol 500mg"],
     workouts: ["Rest during acute phase", "Deep breathing exercises", "Gradual walking", "Pulmonary rehabilitation"],
     diets: ["High calorie foods", "Fluids", "Protein rich foods", "Easily digestible"]
   },
@@ -327,6 +327,367 @@ export const diseasesData = {
     medications: ["Topical antibiotics", "Oral antibiotics", "Antiseptics", "Ointments"],
     workouts: ["Rest during acute phase", "Light activities when feeling better", "Avoid scratching"],
     diets: ["High protein", "Vitamin C", "Stay hydrated", "Nutrient rich foods"]
+  },
+  "Anemia": {
+    symptoms: ["fatigue", "weakness", "pale_skin", "shortness_of_breath", "dizziness"],
+    description: "Anemia is a condition where you lack enough healthy red blood cells to carry oxygen.",
+    precautions: ["Eat iron-rich foods", "Take supplements", "Regular check-ups", "Avoid skipping meals"],
+    medications: ["Iron supplements", "Vitamin B12", "Folic acid"],
+    workouts: ["Light exercise", "Walking", "Avoid overexertion"],
+    diets: ["Iron-rich foods", "Leafy greens", "Red meat", "Beans"]
+  },
+
+  "Depression": {
+    symptoms: ["sadness", "loss_of_interest", "fatigue", "sleep_disturbance", "hopelessness"],
+    description: "Depression is a mental health disorder affecting mood and daily activities.",
+    precautions: ["Seek counseling", "Stay connected", "Maintain routine", "Avoid isolation"],
+    medications: ["Antidepressants", "SSRIs", "Therapy"],
+    workouts: ["Yoga", "Meditation", "Walking", "Exercise regularly"],
+    diets: ["Balanced diet", "Omega-3", "Avoid alcohol"]
+  },
+
+  "Anxiety": {
+    symptoms: ["nervousness", "restlessness", "rapid_heart_rate", "sweating", "difficulty_concentrating"],
+    description: "Anxiety is a mental health condition involving excessive worry.",
+    precautions: ["Practice relaxation", "Avoid caffeine", "Regular sleep", "Stress management"],
+    medications: ["Anxiolytics", "SSRIs", "Beta blockers"],
+    workouts: ["Meditation", "Yoga", "Breathing exercises"],
+    diets: ["Healthy diet", "Avoid caffeine", "Stay hydrated"]
+  },
+
+  "Obesity": {
+    symptoms: ["weight_gain", "fatigue", "breathlessness", "joint_pain"],
+    description: "Obesity is excessive body fat increasing health risks.",
+    precautions: ["Balanced diet", "Exercise regularly", "Monitor weight", "Avoid junk food"],
+    medications: ["Weight loss medications", "Appetite suppressants"],
+    workouts: ["Cardio", "Walking", "Strength training"],
+    diets: ["Low calorie diet", "High fiber", "Avoid sugar"]
+  },
+
+  "Insomnia": {
+    symptoms: ["difficulty_sleeping", "fatigue", "irritability", "lack_of_focus"],
+    description: "Insomnia is difficulty falling or staying asleep.",
+    precautions: ["Maintain sleep schedule", "Avoid screens at night", "Reduce caffeine"],
+    medications: ["Sleep aids", "Melatonin"],
+    workouts: ["Yoga", "Light stretching"],
+    diets: ["Avoid caffeine", "Warm milk", "Light dinner"]
+  },
+
+  "Kidney Stones": {
+    symptoms: ["severe_pain", "blood_in_urine", "nausea", "frequent_urination"],
+    description: "Kidney stones are hard deposits formed in kidneys.",
+    precautions: ["Drink water", "Reduce salt", "Avoid oxalate foods"],
+    medications: ["Pain relievers", "Alpha blockers"],
+    workouts: ["Light activity", "Walking"],
+    diets: ["Hydration", "Low salt", "Balanced diet"]
+  },
+
+  "Appendicitis": {
+    symptoms: ["abdominal_pain", "nausea", "vomiting", "fever"],
+    description: "Appendicitis is inflammation of the appendix requiring urgent care.",
+    precautions: ["Immediate medical care", "Avoid self-medication"],
+    medications: ["Antibiotics", "Pain relief"],
+    workouts: ["Rest"],
+    diets: ["Liquid diet", "Light food"]
+  },
+
+  "Food Poisoning": {
+    symptoms: ["vomiting", "diarrhoea", "stomach_pain", "fever"],
+    description: "Food poisoning is caused by contaminated food.",
+    precautions: ["Eat fresh food", "Wash hands", "Avoid street food"],
+    medications: ["ORS", "Antibiotics (if needed)", "Antiemetics"],
+    workouts: ["Rest"],
+    diets: ["Fluids", "Light food", "BRAT diet"]
+  },
+
+  "COVID-19": {
+    symptoms: ["fever", "cough", "fatigue", "loss_of_taste", "breathlessness"],
+    description: "COVID-19 is a viral respiratory illness caused by SARS-CoV-2.",
+    precautions: ["Wear mask", "Sanitize hands", "Social distancing", "Vaccination"],
+    medications: ["Antivirals", "Paracetamol", "Oxygen therapy"],
+    workouts: ["Rest", "Breathing exercises"],
+    diets: ["High protein", "Fluids", "Vitamin C"]
+  },
+
+  "Sinusitis": {
+    symptoms: ["headache", "facial_pain", "congestion", "runny_nose"],
+    description: "Sinusitis is inflammation of sinuses causing pain and congestion.",
+    precautions: ["Steam inhalation", "Avoid cold exposure", "Stay hydrated"],
+    medications: ["Decongestants", "Antibiotics", "Pain relievers"],
+    workouts: ["Light exercise"],
+    diets: ["Warm fluids", "Hydration"]
+  },
+  // ===== Batch 2 Diseases =====
+
+  "Stroke": {
+    symptoms: ["weakness", "slurred_speech", "loss_of_balance", "vision_problems"],
+    description: "Stroke occurs when blood supply to part of the brain is interrupted.",
+    precautions: ["Control blood pressure", "Avoid smoking", "Exercise regularly", "Healthy diet"],
+    medications: ["Blood thinners", "Clot busters", "Antiplatelets"],
+    workouts: ["Rehabilitation exercises", "Walking", "Physical therapy"],
+    diets: ["Low salt", "Heart healthy diet", "Fruits and vegetables"]
+  },
+
+  "Parkinson’s Disease": {
+    symptoms: ["tremor", "slow_movement", "stiffness", "balance_problems"],
+    description: "Parkinson’s is a progressive nervous system disorder affecting movement.",
+    precautions: ["Regular medication", "Exercise", "Avoid stress"],
+    medications: ["Levodopa", "Dopamine agonists"],
+    workouts: ["Yoga", "Walking", "Balance training"],
+    diets: ["High fiber", "Hydration", "Balanced diet"]
+  },
+
+  "Epilepsy": {
+    symptoms: ["seizures", "confusion", "loss_of_awareness"],
+    description: "Epilepsy is a neurological disorder causing recurrent seizures.",
+    precautions: ["Take medications regularly", "Avoid triggers", "Proper sleep"],
+    medications: ["Antiepileptics"],
+    workouts: ["Light exercise", "Supervised activities"],
+    diets: ["Ketogenic diet", "Balanced nutrition"]
+  },
+
+  "Cancer": {
+    symptoms: ["weight_loss", "fatigue", "lumps", "persistent_pain"],
+    description: "Cancer is uncontrolled growth of abnormal cells.",
+    precautions: ["Avoid tobacco", "Healthy lifestyle", "Regular screening"],
+    medications: ["Chemotherapy", "Radiation", "Targeted therapy"],
+    workouts: ["Light exercise", "Rehabilitation"],
+    diets: ["High protein", "Nutrient rich foods"]
+  },
+
+  "Breast Cancer": {
+    symptoms: ["breast_lump", "change_in_shape", "pain"],
+    description: "Breast cancer is cancer that forms in breast cells.",
+    precautions: ["Regular screening", "Healthy lifestyle"],
+    medications: ["Hormonal therapy", "Chemotherapy"],
+    workouts: ["Light exercise"],
+    diets: ["Balanced diet"]
+  },
+
+  "Lung Cancer": {
+    symptoms: ["chronic_cough", "chest_pain", "weight_loss", "breathlessness"],
+    description: "Lung cancer affects lung tissues and is often linked to smoking.",
+    precautions: ["Avoid smoking", "Regular checkups"],
+    medications: ["Chemotherapy", "Radiation"],
+    workouts: ["Breathing exercises"],
+    diets: ["High protein"]
+  },
+
+  "Skin Cancer": {
+    symptoms: ["skin_changes", "moles", "lesions"],
+    description: "Skin cancer develops in skin cells due to UV exposure.",
+    precautions: ["Use sunscreen", "Avoid sun exposure"],
+    medications: ["Topical therapy", "Surgery"],
+    workouts: ["Normal activity"],
+    diets: ["Healthy diet"]
+  },
+
+  "Alzheimer’s Disease": {
+    symptoms: ["memory_loss", "confusion", "difficulty_thinking"],
+    description: "Alzheimer’s is a progressive brain disorder affecting memory.",
+    precautions: ["Mental exercises", "Healthy lifestyle"],
+    medications: ["Cognitive enhancers"],
+    workouts: ["Walking", "Mental exercises"],
+    diets: ["Brain healthy foods"]
+  },
+
+  "Autism": {
+    symptoms: ["social_difficulty", "communication_issues", "repetitive_behavior"],
+    description: "Autism is a developmental disorder affecting communication.",
+    precautions: ["Early therapy", "Supportive care"],
+    medications: ["Behavior therapy"],
+    workouts: ["Routine activities"],
+    diets: ["Balanced diet"]
+  },
+
+  "ADHD": {
+    symptoms: ["inattention", "hyperactivity", "impulsiveness"],
+    description: "ADHD affects attention and behavior.",
+    precautions: ["Structured routine", "Behavior therapy"],
+    medications: ["Stimulants", "Non-stimulants"],
+    workouts: ["Physical activity"],
+    diets: ["Balanced diet"]
+  },
+
+  "Chronic Kidney Disease": {
+    symptoms: ["fatigue", "swelling", "urination_changes"],
+    description: "CKD is gradual loss of kidney function.",
+    precautions: ["Control diabetes", "Monitor BP"],
+    medications: ["ACE inhibitors"],
+    workouts: ["Light exercise"],
+    diets: ["Low protein", "Low sodium"]
+  },
+
+  "Liver Cirrhosis": {
+    symptoms: ["jaundice", "swelling", "fatigue"],
+    description: "Cirrhosis is scarring of the liver.",
+    precautions: ["Avoid alcohol", "Healthy diet"],
+    medications: ["Diuretics", "Liver meds"],
+    workouts: ["Light activity"],
+    diets: ["Low salt"]
+  },
+
+  "Gallstones": {
+    symptoms: ["abdominal_pain", "nausea", "vomiting"],
+    description: "Gallstones are hardened deposits in gallbladder.",
+    precautions: ["Healthy diet", "Avoid fatty food"],
+    medications: ["Pain relievers"],
+    workouts: ["Light exercise"],
+    diets: ["Low fat diet"]
+  },
+
+  "Pancreatitis": {
+    symptoms: ["abdominal_pain", "nausea", "fever"],
+    description: "Pancreatitis is inflammation of pancreas.",
+    precautions: ["Avoid alcohol", "Healthy diet"],
+    medications: ["Pain relief", "Enzymes"],
+    workouts: ["Rest"],
+    diets: ["Low fat"]
+  },
+
+  "Irritable Bowel Syndrome": {
+    symptoms: ["bloating", "abdominal_pain", "diarrhoea", "constipation"],
+    description: "IBS affects large intestine causing discomfort.",
+    precautions: ["Stress management", "Diet control"],
+    medications: ["Antispasmodics"],
+    workouts: ["Yoga", "Walking"],
+    diets: ["Low FODMAP diet"]
+  },
+
+  "Sleep Apnea": {
+    symptoms: ["snoring", "daytime_sleepiness", "breathing_pauses"],
+    description: "Sleep apnea causes breathing interruptions during sleep.",
+    precautions: ["Weight loss", "Sleep on side"],
+    medications: ["CPAP therapy"],
+    workouts: ["Exercise"],
+    diets: ["Healthy diet"]
+  },
+
+  "Cholesterol (High)": {
+    symptoms: ["chest_pain", "fatigue"],
+    description: "High cholesterol increases heart disease risk.",
+    precautions: ["Exercise", "Healthy diet"],
+    medications: ["Statins"],
+    workouts: ["Cardio"],
+    diets: ["Low fat diet"]
+  },
+
+  "Gout": {
+    symptoms: ["joint_pain", "swelling", "redness"],
+    description: "Gout is a form of arthritis caused by uric acid buildup.",
+    precautions: ["Avoid alcohol", "Healthy diet"],
+    medications: ["NSAIDs", "Colchicine"],
+    workouts: ["Light exercise"],
+    diets: ["Low purine diet"]
+  },
+  // ===== Batch 3 Diseases =====
+
+  "Chickenpox": {
+    symptoms: ["rash", "fever", "itching", "fatigue"],
+    description: "Chickenpox is a viral infection causing itchy blisters.",
+    precautions: ["Avoid scratching", "Isolation", "Maintain hygiene"],
+    medications: ["Antihistamines", "Calamine lotion"],
+    workouts: ["Rest"],
+    diets: ["Soft foods", "Fluids"]
+  },
+
+  "Measles": {
+    symptoms: ["rash", "fever", "cough", "runny_nose"],
+    description: "Measles is a highly contagious viral disease.",
+    precautions: ["Vaccination", "Isolation"],
+    medications: ["Vitamin A", "Supportive care"],
+    workouts: ["Rest"],
+    diets: ["Fluids", "Nutritious diet"]
+  },
+
+  "Bronchitis": {
+    symptoms: ["cough", "mucus", "fatigue", "shortness_of_breath"],
+    description: "Bronchitis is inflammation of bronchial tubes.",
+    precautions: ["Avoid smoke", "Stay hydrated"],
+    medications: ["Cough syrups", "Bronchodilators"],
+    workouts: ["Breathing exercises"],
+    diets: ["Warm fluids"]
+  },
+
+  "Asthma": {
+    symptoms: ["wheezing", "breathlessness", "chest_tightness"],
+    description: "Asthma is a chronic respiratory disease.",
+    precautions: ["Avoid triggers", "Use inhaler"],
+    medications: ["Bronchodilators", "Steroids"],
+    workouts: ["Breathing exercises"],
+    diets: ["Healthy diet"]
+  },
+
+  "Allergic Rhinitis": {
+    symptoms: ["sneezing", "runny_nose", "itchy_eyes"],
+    description: "Allergic rhinitis is caused by allergens.",
+    precautions: ["Avoid allergens"],
+    medications: ["Antihistamines"],
+    workouts: ["Yoga"],
+    diets: ["Healthy diet"]
+  },
+
+  "Eczema": {
+    symptoms: ["itching", "dry_skin", "redness"],
+    description: "Eczema is a skin condition causing irritation.",
+    precautions: ["Avoid irritants", "Moisturize"],
+    medications: ["Steroid creams"],
+    workouts: ["Normal activity"],
+    diets: ["Healthy diet"]
+  },
+
+  "Osteoporosis": {
+    symptoms: ["bone_weakness", "fractures", "back_pain"],
+    description: "Osteoporosis weakens bones.",
+    precautions: ["Calcium intake", "Exercise"],
+    medications: ["Calcium", "Vitamin D"],
+    workouts: ["Weight training"],
+    diets: ["Calcium rich foods"]
+  },
+
+  "Varicose Veins": {
+    symptoms: ["swelling", "pain", "visible_veins"],
+    description: "Varicose veins are enlarged veins.",
+    precautions: ["Avoid standing long", "Exercise"],
+    medications: ["Compression therapy"],
+    workouts: ["Walking"],
+    diets: ["Healthy diet"]
+  },
+
+  "Thyroid (Hypothyroidism)": {
+    symptoms: ["fatigue", "weight_gain", "cold_intolerance"],
+    description: "Underactive thyroid gland.",
+    precautions: ["Regular medication"],
+    medications: ["Levothyroxine"],
+    workouts: ["Exercise"],
+    diets: ["Iodine rich foods"]
+  },
+
+  "Thyroid (Hyperthyroidism)": {
+    symptoms: ["weight_loss", "rapid_heartbeat", "anxiety"],
+    description: "Overactive thyroid gland.",
+    precautions: ["Monitor thyroid levels"],
+    medications: ["Antithyroid drugs"],
+    workouts: ["Light exercise"],
+    diets: ["Balanced diet"]
+  },
+
+  "PCOS": {
+    symptoms: ["irregular_periods", "weight_gain", "acne"],
+    description: "PCOS affects hormonal balance in women.",
+    precautions: ["Exercise", "Healthy lifestyle"],
+    medications: ["Hormonal therapy"],
+    workouts: ["Cardio", "Yoga"],
+    diets: ["Low carb diet"]
+  },
+
+  "Endometriosis": {
+    symptoms: ["pelvic_pain", "heavy_periods", "infertility"],
+    description: "Endometriosis is abnormal tissue growth outside uterus.",
+    precautions: ["Medical care"],
+    medications: ["Pain relievers", "Hormones"],
+    workouts: ["Light exercise"],
+    diets: ["Anti-inflammatory diet"]
   }
 };
 

@@ -7,15 +7,21 @@ function Shop({ user }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  console.log("SHOP COMPONENT RENDERED");
 
   useEffect(() => {
     fetchCategories();
     fetchMedicines();
+    console.log("SHOP COMPONENT RENDERED");
   }, []);
 
   useEffect(() => {
+    fetchCategories();
     fetchMedicines();
-  }, [selectedCategory, searchTerm]);
+    console.log("SHOP COMPONENT RENDERED");
+  }, [selectedCategory, searchTerm, page]);
 
   const fetchCategories = async () => {
     try {
@@ -32,18 +38,27 @@ function Shop({ user }) {
   const fetchMedicines = async () => {
     try {
       const params = new URLSearchParams();
+
       if (selectedCategory !== 'All') {
         params.append('category', selectedCategory);
       }
+
       if (searchTerm) {
         params.append('search', searchTerm);
       }
-      
+
+      params.append('page', page);
+      params.append('limit', 21);
+      setLoading(true);
       const response = await fetch(`/api/medicines?${params}`);
       const data = await response.json();
+      console.log("TOTAL PAGES:", data.totalPages);
       if (data.success) {
         setMedicines(data.data);
+        setTotalPages(data.totalPages||1);
       }
+      
+
     } catch (err) {
       console.error('Error fetching medicines:', err);
     } finally {
@@ -86,7 +101,10 @@ function Shop({ user }) {
             type="text"
             placeholder="Search medicines..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setPage(1);
+            }}
           />
         </div>
         
@@ -95,7 +113,10 @@ function Shop({ user }) {
             <button
               key={cat}
               className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setPage(1);
+              }}
             >
               {cat}
             </button>
@@ -106,9 +127,10 @@ function Shop({ user }) {
       {loading ? (
         <div className="loading">Loading medicines...</div>
       ) : (
+        <>
         <div className="medicines-grid">
           {medicines.map((medicine) => (
-            <div key={medicine.id} className="medicine-card-full">
+            <div key={medicine._id} className="medicine-card-full">
               <div className="medicine-image-full">{medicine.image}</div>
               <div className="medicine-info-full">
                 <span className="medicine-category">{medicine.category}</span>
@@ -121,7 +143,7 @@ function Shop({ user }) {
                 </div>
                 <button 
                   className="add-to-cart-btn"
-                  onClick={() => addToCart(medicine.id)}
+                  onClick={() => addToCart(medicine._id)}
                 >
                   🛒 Add to Cart
                 </button>
@@ -129,6 +151,27 @@ function Shop({ user }) {
             </div>
           ))}
         </div>
+        <div className="pagination">
+          <button 
+            disabled={page === 1}
+            style={{ opacity: page === 1 ? 0.5 : 1 }}
+            onClick={() => setPage(page - 1)}
+          >
+            ⬅ Prev
+          </button>
+
+          <span>Page {page} of {totalPages}</span>
+
+          <button 
+            disabled={page === totalPages}
+            style={{ opacity: page === totalPages ? 0.5 : 1 }}
+            onClick={() => setPage(page + 1)}
+          >
+            Next ➡
+          </button>
+        </div>
+        </>
+        
       )}
 
       {medicines.length === 0 && !loading && (

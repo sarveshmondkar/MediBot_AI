@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { suggestions } from "../data/suggestions";
 
 function Profile({ user, onLogout }) {
   const [orders, setOrders] = useState([]);
@@ -17,6 +17,8 @@ function Profile({ user, onLogout }) {
     allergies: [],
     pastSurgeries: []
   });
+  const [activeField, setActiveField] = useState(null);
+  const [filteredOptions, setFilteredOptions] = useState([]);
   const navigate = useNavigate();
 
   const bloodOptions = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
@@ -53,20 +55,20 @@ function Profile({ user, onLogout }) {
     }
   };
 
-useEffect(() => {
-  if (!user) {
-    navigate('/login');
-    return;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
 
-  const loadData = async () => {
-    await fetchOrders();
-    await fetchProfile();
-    setLoading(false); // ✅ move here
-  };
+    const loadData = async () => {
+      await fetchOrders();
+      await fetchProfile();
+      setLoading(false); // ✅ move here
+    };
 
-  loadData();
-}, [user]);
+    loadData();
+  }, [user]);
 
   const handleLogout = () => {
     onLogout();
@@ -80,13 +82,57 @@ useEffect(() => {
       const value = e.target.value.trim();
       if (!value) return;
 
-      setProfile(prev => ({
-        ...prev,
-        [field]: [...(prev[field] || []), value]
-      }));
+      setProfile(prev => {
+        const existing = prev[field] || [];
 
+        if (existing.some(item => item.toLowerCase() === value.toLowerCase())) {
+          alert("Already added ⚠️");
+          return prev;
+        }
+
+        return {
+          ...prev,
+          [field]: [...existing, value]
+        };
+      });
+
+      // ✅ CLEAR INPUT HERE (outside setState)
       e.target.value = "";
     }
+  };
+
+  const handleInputChange = (e, field) => {
+    const value = e.target.value;
+
+    if (!value) {
+      setFilteredOptions([]);
+      return;
+    }
+
+    const matches = suggestions[field].filter(item =>
+      item.toLowerCase().includes(value.toLowerCase())
+    );
+
+    setFilteredOptions(matches);
+    setActiveField(field);
+  };
+
+  const addTag = (field, value) => {
+    setProfile(prev => {
+      const existing = prev[field] || [];
+
+      if (existing.some(item => item.toLowerCase() === value.toLowerCase())) {
+        alert("Already added ⚠️");
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [field]: [...existing, value]
+      };
+    });
+
+    setFilteredOptions([]);
   };
 
   const removeTag = (field, index) => {
@@ -309,10 +355,23 @@ useEffect(() => {
                   ))}
 
                   <input
-                    placeholder="Press Enter to add"
+                    placeholder="Type to search..."
+                    onChange={(e) => handleInputChange(e, field)}
                     onKeyDown={(e) => handleTagInput(e, field)}
                   />
+
+                  {/* Suggestions dropdown */}
+                  {activeField === field && filteredOptions.length > 0 && (
+                    <div className="suggestions">
+                      {filteredOptions.map((item, i) => (
+                        <div key={i} onClick={() => addTag(field, item)}>
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
+                
               </div>
             ))}
 

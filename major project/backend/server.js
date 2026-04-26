@@ -229,87 +229,43 @@ app.put('/api/update-health', async (req, res) => {
 
 // Get all medicines
 app.get('/api/medicines', async (req, res) => {
-  const { category, search, symptom } = req.query;
-  
-  // If searching by symptom, return recommendations
-  if (symptom) {
-    const symptomLower = (symptom || '').toLowerCase();
-    
-    for (const [key, data] of Object.entries(symptomData)) {
-      if (symptomLower.includes(key)) {
-        return res.json({ success: true, data: { symptom: key, ...data } });
-      }
-    }
-    
-    return res.json({ 
-      success: false, 
-      message: 'No recommendations found for this symptom' 
-    });
-  }
-  
   try {
+    const { category, search } = req.query;
+
+    const pageNum = parseInt(req.query.page) || 1;
+    const limitNum = parseInt(req.query.limit) || 20;
+
     let query = {};
-    
-    if (category && category !== 'All') {
+
+    if (category && category !== "All") {
       query.category = category;
     }
-    
+
     if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { uses: { $regex: search, $options: 'i' } },
-        { category: { $regex: search, $options: 'i' } }
-      ];
+      query.name = { $regex: search, $options: "i" };
     }
-    
-    if (isMongoConnected) {
-      const medicines = await Medicine.find(query);
-      res.json({ success: true, data: medicines });
-    } else {
-      // Fallback to static data
-      let filtered = [
-        { id: 1, name: 'Paracetamol 500mg', category: 'Pain Relief', price: 2.99, description: 'Relieves pain and reduces fever', uses: 'Headache, Fever, Pain', stock: 100, image: '💊' },
-        { id: 2, name: 'Ibuprofen 400mg', category: 'Pain Relief', price: 4.99, description: 'Anti-inflammatory pain reliever', uses: 'Pain, Inflammation, Fever', stock: 80, image: '💊' },
-        { id: 3, name: 'Aspirin 325mg', category: 'Pain Relief', price: 3.49, description: 'Pain reliever and fever reducer', uses: 'Headache, Pain, Heart health', stock: 60, image: '💊' },
-        { id: 4, name: 'Cetirizine 10mg', category: 'Allergies', price: 3.49, description: 'Antihistamine for allergies', uses: 'Allergies, Hay fever, Itching', stock: 120, image: '💊' },
-        { id: 5, name: 'Loratadine 10mg', category: 'Allergies', price: 4.29, description: 'Non-drowsy antihistamine', uses: 'Allergies, Sneezing, Runny nose', stock: 90, image: '💊' },
-        { id: 6, name: 'Fexofenadine 180mg', category: 'Allergies', price: 5.99, description: 'Long-lasting allergy relief', uses: 'Allergies, Hives, Itching', stock: 70, image: '💊' },
-        { id: 7, name: 'Pseudoephedrine 30mg', category: 'Cold & Flu', price: 4.99, description: 'Decongestant for nasal congestion', uses: 'Cold, Sinus congestion, Flu', stock: 85, image: '🤧' },
-        { id: 8, name: 'Dextromethorphan 10mg', category: 'Cold & Flu', price: 3.99, description: 'Cough suppressant', uses: 'Dry cough, Chest congestion', stock: 95, image: '🤧' },
-        { id: 9, name: 'Guaifenesin 200mg', category: 'Cold & Flu', price: 4.49, description: 'Expectorant for mucus relief', uses: 'Chest congestion, Cough, Cold', stock: 75, image: '🤧' },
-        { id: 10, name: 'Omeprazole 20mg', category: 'Digestion', price: 5.99, description: 'Proton pump inhibitor', uses: 'Acid reflux, Heartburn, GERD', stock: 65, image: '🫃' },
-        { id: 11, name: 'Antacid Chewable', category: 'Digestion', price: 2.49, description: 'Fast-acting antacid', uses: 'Indigestion, Heartburn, Acid', stock: 110, image: '🫃' },
-        { id: 12, name: 'Buscopan 10mg', category: 'Digestion', price: 6.49, description: 'Anti-spasmodic for stomach cramps', uses: 'Stomach cramps, IBS, Pain', stock: 55, image: '🫃' },
-        { id: 13, name: 'Domperidone 10mg', category: 'Nausea', price: 4.99, description: 'Anti-nausea medication', uses: 'Nausea, Vomiting, Motion sickness', stock: 80, image: '🤢' },
-        { id: 14, name: 'Ondansetron 4mg', category: 'Nausea', price: 7.99, description: 'Anti-emetic for nausea control', uses: 'Nausea, Post-surgery, Chemotherapy', stock: 45, image: '🤢' },
-        { id: 15, name: 'Vitamin C 1000mg', category: 'Vitamins', price: 5.99, description: 'Immune system booster', uses: 'Immunity, Cold prevention, Energy', stock: 150, image: '💊' },
-        { id: 16, name: 'Vitamin D3 1000IU', category: 'Vitamins', price: 4.99, description: 'Essential for bone health', uses: 'Bone health, Immunity, Mood', stock: 130, image: '💊' },
-        { id: 17, name: 'Multivitamin Complex', category: 'Vitamins', price: 8.99, description: 'Complete daily vitamin supplement', uses: 'Energy, Immunity, Overall health', stock: 100, image: '💊' },
-        { id: 18, name: 'Calcium 500mg', category: 'Vitamins', price: 3.99, description: 'Essential mineral supplement', uses: 'Bone health, Teeth, Muscles', stock: 120, image: '💊' },
-        { id: 19, name: 'Bandages Large', category: 'First Aid', price: 2.99, description: 'Sterile wound dressings', uses: 'Wounds, Cuts, Scrapes', stock: 200, image: '🩹' },
-        { id: 20, name: 'Antiseptic Cream', category: 'First Aid', price: 3.49, description: 'Wound infection prevention', uses: 'Cuts, Burns, Scrapes', stock: 90, image: '🩹' },
-      ];
-      
-      if (category && category !== 'All') {
-        filtered = filtered.filter(m => m.category === category);
-      }
-      
-      if (search) {
-        const searchLower = search.toLowerCase();
-        filtered = filtered.filter(m => 
-          m.name.toLowerCase().includes(searchLower) || 
-          m.uses.toLowerCase().includes(searchLower) ||
-          m.category.toLowerCase().includes(searchLower)
-        );
-      }
-      
-      res.json({ success: true, data: filtered });
-    }
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
+
+    const skip = (pageNum - 1) * limitNum;
+
+    const medicines = await Medicine.find(query)
+      .skip(skip)
+      .limit(limitNum);
+
+    const total = await Medicine.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: medicines,
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum)
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
   }
 });
-
 // Get categories
 app.get('/api/categories', (req, res) => {
   res.json({ success: true, data: categories });
@@ -347,9 +303,9 @@ app.get('/api/cart/:userId', async (req, res) => {
     if (isMongoConnected) {
       const cartItems = await Cart.find({ userId }).populate('medicineId');
       const enrichedCart = cartItems.map(item => ({
-        medicineId: item.medicineId,
+        medicineId: item.medicineId._id,   // ✅ only ID
         quantity: item.quantity,
-        medicine: item.medicineId
+        medicine: item.medicineId          // ✅ full object
       }));
       res.json({ success: true, data: enrichedCart });
     } else {

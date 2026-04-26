@@ -1151,6 +1151,42 @@ body {
   opacity: 0.5;
 }
 
+/* pagination in shop*/
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.pagination button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb; /* blue */
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #1e40af;
+  transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
 /* Cart Page */
 .cart-page {
   padding: 7rem 2rem 3rem;
@@ -1543,6 +1579,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  position: relative;
 }
 
 .field.full {
@@ -1574,13 +1611,14 @@ body {
 
 /* Button */
 .save-btn {
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
   background: var(--secondary);
   color: black;
   border: none;
   border-radius: var(--radius-md);
   padding: 0.8rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.25s ease;
 }
@@ -1624,6 +1662,36 @@ body {
   color: black;
 }
 
+/* Tag Dropdown */
+.suggestions {
+  position: absolute;
+  top: 100%;       /* directly below input */
+  left: 0;
+  width: 100%;     /* match input width */
+  
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  
+  margin-top: 6px;
+  z-index: 50;
+
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.suggestions div {
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.suggestions div:hover {
+  background: var(--secondary);
+  color: black;
+}
+
+
 /* Radio buttons */
 .radio-group {
   display: flex;
@@ -1643,6 +1711,7 @@ body {
   background: rgba(255,255,255,0.05);
   border-radius: var(--radius-md);
   border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
 }
 
 .tag {
@@ -1653,7 +1722,7 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1rem;
 }
 

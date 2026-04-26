@@ -108,22 +108,43 @@ function Cart({ user }) {
           <>
             <div className="cart-items">
               {cart.map((item) => (
-                <div key={item.medicineId} className="cart-item">
-                  <div className="cart-item-image">{item.medicine?.image || '💊'}</div>
+                <div key={item.medicine?._id || item.medicineId?.toString()} className="cart-item">
+                  
+                  <div className="cart-item-image">
+                    {item.medicine?.image || '💊'}
+                  </div>
+
                   <div className="cart-item-info">
                     <h3>{item.medicine?.name}</h3>
-                    <p className="cart-item-price">${item.medicine?.price?.toFixed(2)}</p>
-                    <p className="cart-item-category">{item.medicine?.category}</p>
+                    <p className="cart-item-price">
+                      ${item.medicine?.price?.toFixed(2)}
+                    </p>
+                    <p className="cart-item-category">
+                      {item.medicine?.category}
+                    </p>
                   </div>
+
                   <div className="cart-item-quantity">
-                    <button onClick={() => updateQuantity(item.medicineId, item.quantity - 1)}>-</button>
+                    <button onClick={() => updateQuantity(item.medicine?._id || item.medicineId, item.quantity - 1)}>
+                      -
+                    </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.medicineId, item.quantity + 1)}>+</button>
+                    <button onClick={() => updateQuantity(item.medicine?._id || item.medicineId, item.quantity + 1)}>
+                      +
+                    </button>
                   </div>
+
                   <div className="cart-item-total">
                     ${((item.medicine?.price || 0) * item.quantity).toFixed(2)}
                   </div>
-                  <button className="remove-btn" onClick={() => removeItem(item.medicineId)}>✕</button>
+
+                  <button 
+                    className="remove-btn" 
+                    onClick={() => removeItem(item.medicine?._id || item.medicineId)}
+                  >
+                    ✕
+                  </button>
+
                 </div>
               ))}
             </div>

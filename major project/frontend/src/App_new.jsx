@@ -15,6 +15,11 @@ import './App.css';
 import SymptomChecker from './pages/SymptomChecker';
 import Profile from './pages/Profile';
 import HealthTips from './pages/HealthTips';
+import Shop from './pages/Shop';
+import Cart from './pages/Cart';
+import Orders from './pages/Orders';
+
+
 // Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -274,462 +279,462 @@ function Signup({ onLogin }) {
   );
 }
 
-// Shop Component
-function Shop({ user }) {
-  const [medicines, setMedicines] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
+// // Shop Component
+// function Shop({ user }) {
+//   const [medicines, setMedicines] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [selectedCategory, setSelectedCategory] = useState('All');
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCategories();
-    fetchMedicines();
-  }, []);
+//   useEffect(() => {
+//     fetchCategories();
+//     fetchMedicines();
+//   }, []);
 
-  useEffect(() => {
-    fetchMedicines();
-  }, [selectedCategory, searchTerm]);
+//   useEffect(() => {
+//     fetchMedicines();
+//   }, [selectedCategory, searchTerm]);
 
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/categories');
-      const data = await response.json();
-      if (data.success) {
-        setCategories(['All', ...data.data]);
-      }
-    } catch (err) {
-      console.error('Error fetching categories:', err);
-    }
-  };
+//   const fetchCategories = async () => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/categories');
+//       const data = await response.json();
+//       if (data.success) {
+//         setCategories(['All', ...data.data]);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching categories:', err);
+//     }
+//   };
 
-  const fetchMedicines = async () => {
-    try {
-      const params = new URLSearchParams();
-      if (selectedCategory !== 'All') {
-        params.append('category', selectedCategory);
-      }
-      if (searchTerm) {
-        params.append('search', searchTerm);
-      }
+//   const fetchMedicines = async () => {
+//     try {
+//       const params = new URLSearchParams();
+//       if (selectedCategory !== 'All') {
+//         params.append('category', selectedCategory);
+//       }
+//       if (searchTerm) {
+//         params.append('search', searchTerm);
+//       }
       
-      const response = await fetch(`http://localhost:5000/api/medicines?${params}`);
-      const data = await response.json();
-      if (data.success) {
-        setMedicines(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching medicines:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//       const response = await fetch(`http://localhost:5000/api/medicines?${params}`);
+//       const data = await response.json();
+//       if (data.success) {
+//         setMedicines(data.data);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching medicines:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const addToCart = async (medicineId) => {
-    if (!user) {
-      alert('Please login to add items to cart');
-      return;
-    }
+//   const addToCart = async (medicineId) => {
+//     if (!user) {
+//       alert('Please login to add items to cart');
+//       return;
+//     }
     
-    try {
-      const response = await fetch('http://localhost:5000/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, medicineId, quantity: 1 })
-      });
+//     try {
+//       const response = await fetch('http://localhost:5000/api/cart', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId: user.id, medicineId, quantity: 1 })
+//       });
       
-      const data = await response.json();
-      if (data.success) {
-        alert('✅ Added to cart!');
-      }
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-    }
-  };
+//       const data = await response.json();
+//       if (data.success) {
+//         alert('✅ Added to cart!');
+//       }
+//     } catch (err) {
+//       console.error('Error adding to cart:', err);
+//     }
+//   };
 
-  const categoryIcons = {
-    'Pain Relief': <FaPills />,
-    'Allergies': <FaShieldVirus />,
-    'Cold & Flu': <FaThermometer />,
-    'Digestion': <FaAppleAlt scale={0.8} />,
-    'Nausea': <FaPills />,
-    'Vitamins': <FaCapsules />,
-    'First Aid': <FaFirstAid />
-  };
+//   const categoryIcons = {
+//     'Pain Relief': <FaPills />,
+//     'Allergies': <FaShieldVirus />,
+//     'Cold & Flu': <FaThermometer />,
+//     'Digestion': <FaAppleAlt scale={0.8} />,
+//     'Nausea': <FaPills />,
+//     'Vitamins': <FaCapsules />,
+//     'First Aid': <FaFirstAid />
+//   };
 
-  return (
-    <div className="shop-page">
-      <motion.div 
-        className="shop-header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h1>💊 Medicine Shop</h1>
-        <p>Find the medicines you need</p>
-      </motion.div>
+//   return (
+//     <div className="shop-page">
+//       <motion.div 
+//         className="shop-header"
+//         initial={{ opacity: 0, y: -20 }}
+//         animate={{ opacity: 1, y: 0 }}
+//       >
+//         <h1>💊 Medicine Shop</h1>
+//         <p>Find the medicines you need</p>
+//       </motion.div>
 
-      <motion.div 
-        className="shop-filters"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="search-bar">
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search medicines..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+//       <motion.div 
+//         className="shop-filters"
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//         transition={{ delay: 0.2 }}
+//       >
+//         <div className="search-bar">
+//           <FaSearch className="search-icon" />
+//           <input
+//             type="text"
+//             placeholder="Search medicines..."
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+//         </div>
         
-        <div className="category-filters">
-          {categories.map((cat, index) => (
-            <motion.button
-              key={cat}
-              className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {cat}
-            </motion.button>
-          ))}
-        </div>
-      </motion.div>
+//         <div className="category-filters">
+//           {categories.map((cat, index) => (
+//             <motion.button
+//               key={cat}
+//               className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
+//               onClick={() => setSelectedCategory(cat)}
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               transition={{ delay: index * 0.05 }}
+//               whileHover={{ scale: 1.05 }}
+//               whileTap={{ scale: 0.95 }}
+//             >
+//               {cat}
+//             </motion.button>
+//           ))}
+//         </div>
+//       </motion.div>
 
-      {loading ? (
-        <div className="loading">
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          >
-            <FaRobot size={40} />
-          </motion.div>
-          <p>Loading medicines...</p>
-        </div>
-      ) : (
-        <motion.div 
-          className="medicines-grid"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {medicines.map((medicine, index) => (
-            <motion.div 
-              key={medicine.id} 
-              className="medicine-card"
-              variants={fadeInUp}
-              whileHover={{ y: -10 }}
-            >
-              <div className="medicine-image">{medicine.image}</div>
-              <span className="medicine-category">{medicine.category}</span>
-              <h3>{medicine.name}</h3>
-              <p className="medicine-description">{medicine.description}</p>
-              <p className="medicine-uses">Uses: {medicine.uses}</p>
-              <div className="medicine-footer">
-                <span className="medicine-price">${medicine.price.toFixed(2)}</span>
-                <span className="medicine-stock">Stock: {medicine.stock}</span>
-              </div>
-              <motion.button 
-                className="add-to-cart-btn"
-                onClick={() => addToCart(medicine.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                🛒 Add to Cart
-              </motion.button>
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
+//       {loading ? (
+//         <div className="loading">
+//           <motion.div 
+//             animate={{ rotate: 360 }}
+//             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+//           >
+//             <FaRobot size={40} />
+//           </motion.div>
+//           <p>Loading medicines...</p>
+//         </div>
+//       ) : (
+//         <motion.div 
+//           className="medicines-grid"
+//           variants={staggerContainer}
+//           initial="initial"
+//           animate="animate"
+//         >
+//           {medicines.map((medicine, index) => (
+//             <motion.div 
+//               key={medicine.id} 
+//               className="medicine-card"
+//               variants={fadeInUp}
+//               whileHover={{ y: -10 }}
+//             >
+//               <div className="medicine-image">{medicine.image}</div>
+//               <span className="medicine-category">{medicine.category}</span>
+//               <h3>{medicine.name}</h3>
+//               <p className="medicine-description">{medicine.description}</p>
+//               <p className="medicine-uses">Uses: {medicine.uses}</p>
+//               <div className="medicine-footer">
+//                 <span className="medicine-price">${medicine.price.toFixed(2)}</span>
+//                 <span className="medicine-stock">Stock: {medicine.stock}</span>
+//               </div>
+//               <motion.button 
+//                 className="add-to-cart-btn"
+//                 onClick={() => addToCart(medicine.id)}
+//                 whileHover={{ scale: 1.05 }}
+//                 whileTap={{ scale: 0.95 }}
+//               >
+//                 🛒 Add to Cart
+//               </motion.button>
+//             </motion.div>
+//           ))}
+//         </motion.div>
+//       )}
 
-      {medicines.length === 0 && !loading && (
-        <div className="no-results">
-          <FaSearch size={50} />
-          <p>No medicines found</p>
-        </div>
-      )}
-    </div>
-  );
-}
+//       {medicines.length === 0 && !loading && (
+//         <div className="no-results">
+//           <FaSearch size={50} />
+//           <p>No medicines found</p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
 
-// Cart Component
-function Cart({ user }) {
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [ordering, setOrdering] = useState(false);
-  const navigate = useNavigate();
+// // Cart Component
+// function Cart({ user }) {
+//   const [cart, setCart] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [ordering, setOrdering] = useState(false);
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchCart();
-  }, [user]);
+//   useEffect(() => {
+//     if (!user) {
+//       navigate('/login');
+//       return;
+//     }
+//     fetchCart();
+//   }, [user]);
 
-  const fetchCart = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/cart/${user.id}`);
-      const data = await response.json();
-      if (data.success) {
-        setCart(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching cart:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const fetchCart = async () => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/cart/${user.id}`);
+//       const data = await response.json();
+//       if (data.success) {
+//         setCart(data.data);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching cart:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const updateQuantity = async (medicineId, quantity) => {
-    try {
-      await fetch('http://localhost:5000/api/cart', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, medicineId, quantity })
-      });
-      fetchCart();
-    } catch (err) {
-      console.error('Error updating quantity:', err);
-    }
-  };
+//   const updateQuantity = async (medicineId, quantity) => {
+//     try {
+//       await fetch('http://localhost:5000/api/cart', {
+//         method: 'PUT',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId: user.id, medicineId, quantity })
+//       });
+//       fetchCart();
+//     } catch (err) {
+//       console.error('Error updating quantity:', err);
+//     }
+//   };
 
-  const removeItem = async (medicineId) => {
-    try {
-      await fetch('http://localhost:5000/api/cart', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, medicineId })
-      });
-      fetchCart();
-    } catch (err) {
-      console.error('Error removing item:', err);
-    }
-  };
+//   const removeItem = async (medicineId) => {
+//     try {
+//       await fetch('http://localhost:5000/api/cart', {
+//         method: 'DELETE',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId: user.id, medicineId })
+//       });
+//       fetchCart();
+//     } catch (err) {
+//       console.error('Error removing item:', err);
+//     }
+//   };
 
-  const placeOrder = async () => {
-    if (cart.length === 0) return;
+//   const placeOrder = async () => {
+//     if (cart.length === 0) return;
     
-    setOrdering(true);
-    try {
-      const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
+//     setOrdering(true);
+//     try {
+//       const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
       
-      const response = await fetch('http://localhost:5000/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: user.id,
-          items: cart,
-          total
-        })
-      });
+//       const response = await fetch('http://localhost:5000/api/orders', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//           userId: user.id,
+//           items: cart,
+//           total
+//         })
+//       });
       
-      const data = await response.json();
-      if (data.success) {
-        alert(`🎉 Order placed successfully! Order ID: ${data.orderId}`);
-        navigate('/orders');
-      }
-    } catch (err) {
-      console.error('Error placing order:', err);
-    } finally {
-      setOrdering(false);
-    }
-  };
+//       const data = await response.json();
+//       if (data.success) {
+//         alert(`🎉 Order placed successfully! Order ID: ${data.orderId}`);
+//         navigate('/orders');
+//       }
+//     } catch (err) {
+//       console.error('Error placing order:', err);
+//     } finally {
+//       setOrdering(false);
+//     }
+//   };
 
-  const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
+//   const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
 
-  if (loading) {
-    return (
-      <div className="cart-page">
-        <div className="loading">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
-            <FaRobot size={40} />
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
+//   if (loading) {
+//     return (
+//       <div className="cart-page">
+//         <div className="loading">
+//           <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+//             <FaRobot size={40} />
+//           </motion.div>
+//         </div>
+//       </div>
+//     );
+//   }
 
-  return (
-    <div className="cart-page">
-      <motion.div 
-        className="cart-container"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <h1>🛒 Shopping Cart</h1>
+//   return (
+//     <div className="cart-page">
+//       <motion.div 
+//         className="cart-container"
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//       >
+//         <h1>🛒 Shopping Cart</h1>
         
-        {cart.length === 0 ? (
-          <div className="empty-cart">
-            <FaShoppingCart size={60} />
-            <p>Your cart is empty</p>
-            <Link to="/" className="continue-shopping">Continue Shopping →</Link>
-          </div>
-        ) : (
-          <>
-            <div className="cart-items">
-              {cart.map((item) => (
-                <motion.div 
-                  key={item.medicineId} 
-                  className="cart-item"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                >
-                  <div className="cart-item-image">{item.medicine?.image || '💊'}</div>
-                  <div className="cart-item-info">
-                    <h3>{item.medicine?.name}</h3>
-                    <p className="cart-item-price">${item.medicine?.price?.toFixed(2)}</p>
-                  </div>
-                  <div className="cart-item-quantity">
-                    <button onClick={() => updateQuantity(item.medicineId, item.quantity - 1)}>−</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.medicineId, item.quantity + 1)}>+</button>
-                  </div>
-                  <div className="cart-item-total">
-                    ${((item.medicine?.price || 0) * item.quantity).toFixed(2)}
-                  </div>
-                  <button className="remove-btn" onClick={() => removeItem(item.medicineId)}>✕</button>
-                </motion.div>
-              ))}
-            </div>
+//         {cart.length === 0 ? (
+//           <div className="empty-cart">
+//             <FaShoppingCart size={60} />
+//             <p>Your cart is empty</p>
+//             <Link to="/" className="continue-shopping">Continue Shopping →</Link>
+//           </div>
+//         ) : (
+//           <>
+//             <div className="cart-items">
+//               {cart.map((item) => (
+//                 <motion.div 
+//                   key={item.medicineId} 
+//                   className="cart-item"
+//                   initial={{ opacity: 0, x: -20 }}
+//                   animate={{ opacity: 1, x: 0 }}
+//                 >
+//                   <div className="cart-item-image">{item.medicine?.image || '💊'}</div>
+//                   <div className="cart-item-info">
+//                     <h3>{item.medicine?.name}</h3>
+//                     <p className="cart-item-price">${item.medicine?.price?.toFixed(2)}</p>
+//                   </div>
+//                   <div className="cart-item-quantity">
+//                     <button onClick={() => updateQuantity(item.medicineId, item.quantity - 1)}>−</button>
+//                     <span>{item.quantity}</span>
+//                     <button onClick={() => updateQuantity(item.medicineId, item.quantity + 1)}>+</button>
+//                   </div>
+//                   <div className="cart-item-total">
+//                     ${((item.medicine?.price || 0) * item.quantity).toFixed(2)}
+//                   </div>
+//                   <button className="remove-btn" onClick={() => removeItem(item.medicineId)}>✕</button>
+//                 </motion.div>
+//               ))}
+//             </div>
             
-            <motion.div 
-              className="cart-summary"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <h2>Order Summary</h2>
-              <div className="summary-row">
-                <span>Subtotal ({cart.length} items)</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-              <div className="summary-row">
-                <span>Shipping</span>
-                <span className="free-shipping">FREE</span>
-              </div>
-              <div className="summary-row total">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-              <motion.button 
-                className="checkout-btn"
-                onClick={placeOrder}
-                disabled={ordering}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {ordering ? '⏳ Processing...' : '🚀 Place Order'}
-              </motion.button>
-            </motion.div>
-          </>
-        )}
-      </motion.div>
-    </div>
-  );
-}
+//             <motion.div 
+//               className="cart-summary"
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//             >
+//               <h2>Order Summary</h2>
+//               <div className="summary-row">
+//                 <span>Subtotal ({cart.length} items)</span>
+//                 <span>${total.toFixed(2)}</span>
+//               </div>
+//               <div className="summary-row">
+//                 <span>Shipping</span>
+//                 <span className="free-shipping">FREE</span>
+//               </div>
+//               <div className="summary-row total">
+//                 <span>Total</span>
+//                 <span>${total.toFixed(2)}</span>
+//               </div>
+//               <motion.button 
+//                 className="checkout-btn"
+//                 onClick={placeOrder}
+//                 disabled={ordering}
+//                 whileHover={{ scale: 1.02 }}
+//                 whileTap={{ scale: 0.98 }}
+//               >
+//                 {ordering ? '⏳ Processing...' : '🚀 Place Order'}
+//               </motion.button>
+//             </motion.div>
+//           </>
+//         )}
+//       </motion.div>
+//     </div>
+//   );
+// }
 
-// Orders Component
-function Orders({ user }) {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+// // Orders Component
+// function Orders({ user }) {
+//   const [orders, setOrders] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchOrders();
-  }, [user]);
+//   useEffect(() => {
+//     if (!user) {
+//       navigate('/login');
+//       return;
+//     }
+//     fetchOrders();
+//   }, [user]);
 
-  const fetchOrders = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const fetchOrders = async () => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+//       const data = await response.json();
+//       if (data.success) {
+//         setOrders(data.data);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching orders:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  if (loading) {
-    return (
-      <div className="orders-page">
-        <div className="loading">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
-            <FaRobot size={40} />
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
+//   if (loading) {
+//     return (
+//       <div className="orders-page">
+//         <div className="loading">
+//           <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+//             <FaRobot size={40} />
+//           </motion.div>
+//         </div>
+//       </div>
+//     );
+//   }
 
-  return (
-    <div className="orders-page">
-      <motion.div 
-        className="orders-container"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <h1>📦 My Orders</h1>
+//   return (
+//     <div className="orders-page">
+//       <motion.div 
+//         className="orders-container"
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//       >
+//         <h1>📦 My Orders</h1>
         
-        {orders.length === 0 ? (
-          <div className="empty-orders">
-            <FaNotesMedical size={60} />
-            <p>You haven't placed any orders yet</p>
-            <Link to="/" className="continue-shopping">Start Shopping →</Link>
-          </div>
-        ) : (
-          <div className="orders-list">
-            {orders.map((order, index) => (
-              <motion.div 
-                key={order.id} 
-                className="order-card"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="order-header">
-                  <div className="order-info">
-                    <span className="order-id">Order #{order.id}</span>
-                    <span className="order-date">
-                      {new Date(order.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </div>
-                  <span className="order-status">{order.status}</span>
-                </div>
-                <div className="order-items">
-                  {order.items?.map((item, i) => (
-                    <span key={i} className="order-item">
-                      {item.medicine?.image || '💊'} {item.medicine?.name} x{item.quantity}
-                    </span>
-                  ))}
-                </div>
-                <div className="order-footer">
-                  <span className="order-total">Total: ${order.total?.toFixed(2)}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </motion.div>
-    </div>
-  );
-}
+//         {orders.length === 0 ? (
+//           <div className="empty-orders">
+//             <FaNotesMedical size={60} />
+//             <p>You haven't placed any orders yet</p>
+//             <Link to="/" className="continue-shopping">Start Shopping →</Link>
+//           </div>
+//         ) : (
+//           <div className="orders-list">
+//             {orders.map((order, index) => (
+//               <motion.div 
+//                 key={order.id} 
+//                 className="order-card"
+//                 initial={{ opacity: 0, y: 20 }}
+//                 animate={{ opacity: 1, y: 0 }}
+//                 transition={{ delay: index * 0.1 }}
+//               >
+//                 <div className="order-header">
+//                   <div className="order-info">
+//                     <span className="order-id">Order #{order.id}</span>
+//                     <span className="order-date">
+//                       {new Date(order.createdAt).toLocaleDateString('en-US', {
+//                         year: 'numeric',
+//                         month: 'long',
+//                         day: 'numeric'
+//                       })}
+//                     </span>
+//                   </div>
+//                   <span className="order-status">{order.status}</span>
+//                 </div>
+//                 <div className="order-items">
+//                   {order.items?.map((item, i) => (
+//                     <span key={i} className="order-item">
+//                       {item.medicine?.image || '💊'} {item.medicine?.name} x{item.quantity}
+//                     </span>
+//                   ))}
+//                 </div>
+//                 <div className="order-footer">
+//                   <span className="order-total">Total: ${order.total?.toFixed(2)}</span>
+//                 </div>
+//               </motion.div>
+//             ))}
+//           </div>
+//         )}
+//       </motion.div>
+//     </div>
+//   );
+// }
 
 // // Profile Component
 // function Profile({ user, onLogout }) {
