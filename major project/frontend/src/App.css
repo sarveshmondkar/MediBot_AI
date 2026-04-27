@@ -100,19 +100,27 @@ body {
 }
 
 .logo {
-  font-size: 1.75rem;
-  font-weight: 800;
-  background: var(--gradient-secondary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+
 }
 
-.logo span {
-  display: inline-block;
+/* 👇 Emoji stays normal */
+.logo-icon {
+  color: white; /* or remove this */
+  -webkit-text-fill-color: initial; /* IMPORTANT */
+}
+
+/* 👇 Only text gets gradient */
+.logo-text {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .nav {
@@ -850,6 +858,9 @@ body {
   gap: 3rem;
   max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .footer-section h3 {
@@ -859,6 +870,19 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Emoji stays visible */
+.footer-icon {
+  -webkit-text-fill-color: initial;
+  color: white; /* or var(--secondary) */
+}
+
+/* Only text gets gradient */
+.footer-logo-text {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .footer-section h4 {

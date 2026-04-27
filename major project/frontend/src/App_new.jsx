@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import Layout from "./components/Layout";
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaRobot, FaStethoscope, FaPills, FaHeartbeat, FaUserMd, 
@@ -19,6 +20,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import GroqChatbot from './components/GroqChatbot';
+import EmergencyModal from './components/EmergencyModal';
 
 
 // Animation variants
@@ -991,102 +993,6 @@ function Home({ user, onLogin }) {
 
   return (
     <div className="app">
-      {/* Header */}
-      <motion.header 
-        className="header"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
-      >
-        <div className="logo">
-          <motion.span 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          >
-            🤖
-          </motion.span>
-          MediBot AI
-        </div>
-        <nav className="nav">
-          <Link to="/">Home</Link>
-          <span 
-            className="nav-link"
-            onClick={() => setShowSymptomChecker(true)}
-          >
-            Symptom Checker
-          </span>
-          <Link to="/shop">Shop</Link>
-          <Link to="/health-tips">Health Tips</Link>
-          {user && <Link to="/profile">Profile</Link>}
-        </nav>
-        <div className="header-actions">
-          {user ? (
-            <div className="user-menu">
-              <Link to="/cart" className="cart-btn">🛒 Cart</Link>
-              <span className="user-name">👋 {user.name}</span>
-            </div>
-          ) : (
-            <div className="auth-buttons">
-              <Link to="/login" className="login-btn">Login</Link>
-              <Link to="/signup" className="signup-btn">Sign Up</Link>
-            </div>
-          )}
-          <motion.button 
-            className="emergency-btn"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowEmergency(true)}
-          >
-            🚨 Emergency
-          </motion.button>
-        </div>
-      </motion.header>
-      {showSymptomChecker && (
-        <SymptomChecker onClose={() => setShowSymptomChecker(false)} />
-      )}
-      <AnimatePresence>
-          {showEmergency && (
-            <motion.div 
-              className="emergency-overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div 
-                className="emergency-modal"
-                initial={{ scale: 0.8, y: 50 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.8, y: 50 }}
-              >
-                <h2>🚨 EMERGENCY HELP</h2>
-
-                <div className="emergency-item">
-                  <strong>📞 Ambulance:</strong> 102 / 108
-                </div>
-
-                <div className="emergency-item">
-                  <strong>👮 Police:</strong> 100
-                </div>
-
-                <div className="emergency-item">
-                  <strong>🔥 Fire Brigade:</strong> 101
-                </div>
-
-                <div className="emergency-item">
-                  <strong>📧 Email:</strong> support@medibot.ai
-                </div>
-
-                <button 
-                  className="close-btn"
-                  onClick={() => setShowEmergency(false)}
-                >
-                  Close
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
@@ -1322,12 +1228,16 @@ function Home({ user, onLogin }) {
       {/* Chatbot */}
       <GroqChatbot />
       {/* Chat Toggle Button */}
+      
 
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>🤖 MediBot AI</h3>
+            <h3>
+              <span className="footer-icon">🤖</span>
+              <span className="footer-logo-text"> MediBot AI</span>
+            </h3>
             <p>Your trusted AI-powered healthcare assistant</p>
           </div>
           <div className="footer-section">
@@ -1366,18 +1276,28 @@ function App() {
     setUser(null);
   };
 
+  const [showEmergency, setShowEmergency] = useState(false);
+
+
   return (
     <Router>
+      <EmergencyModal 
+        show={showEmergency} 
+        onClose={() => setShowEmergency(false)} 
+      />
       <Routes>
-        <Route path="/" element={<Home user={user} onLogin={handleLogin} />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/signup" element={<Signup onLogin={handleLogin} />} />
-        <Route path="/shop" element={<Shop user={user} />} />
-        <Route path="/cart" element={<Cart user={user} />} />
-        <Route path="/orders" element={<Orders user={user} />} />
-        <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />
-        <Route path="/health-tips" element={<HealthTips />} />
-        <Route path="/symptom-checker" element={<SymptomChecker />} />
+        <Route element={<Layout user={user} setShowEmergency={setShowEmergency} />}>
+            <Route path="/" element={<Home user={user} onLogin={handleLogin} />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/signup" element={<Signup onLogin={handleLogin} />} />
+            <Route path="/shop" element={<Shop user={user} />} />
+            <Route path="/cart" element={<Cart user={user} />} />
+            <Route path="/orders" element={<Orders user={user} />} />
+            <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />
+            <Route path="/health-tips" element={<HealthTips />} />
+        </Route>
+            {/* No navbar here */}
+            <Route path="/symptom-checker" element={<SymptomChecker />} />
       </Routes>
     </Router>
   );

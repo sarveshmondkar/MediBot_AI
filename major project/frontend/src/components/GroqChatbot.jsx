@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaTimes, FaLocationArrow, FaStethoscope, FaUserAlt, FaRedo } from 'react-icons/fa';
 import { GoogleGenAI } from "@google/genai";
 import './GroqChatbot.css';
 
-const GEMINI_API_KEY = "AIzaSyD3TmsKMgOBp0UADX3xuWh-kgPK0XJ-duE";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 export default function GroqChatbot() {
@@ -20,19 +21,30 @@ export default function GroqChatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    if (isNearBottom()) {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, ]);
 
   useEffect(() => {
     const handleOpenChat = () => setIsOpen(true);
     window.addEventListener('open-groq-chat', handleOpenChat);
     return () => window.removeEventListener('open-groq-chat', handleOpenChat);
   }, []);
+
+  const messagesContainerRef = useRef(null);
+
+  const isNearBottom = () => {
+    const el = messagesContainerRef.current;
+    if (!el) return true;
+
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -43,10 +55,13 @@ export default function GroqChatbot() {
     setIsLoading(true);
 
     try {
-      const requestContents = messages.map(m => ({
+      const recentMessages = messages.slice(-6); // last 6 only
+
+      const requestContents = recentMessages.map(m => ({
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }]
       }));
+      
       requestContents.push({
         role: 'user',
         parts: [{ text: userMsg.content }]
@@ -172,7 +187,7 @@ export default function GroqChatbot() {
             </div>
 
             {/* Messages Area */}
-            <div className="groq-chatbot-messages">
+            <div className="groq-chatbot-messages" ref={messagesContainerRef}>
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
