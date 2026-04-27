@@ -68,9 +68,9 @@ export default function Navbar({ user, setShowEmergency }) {
             <Link to="/login" className="login-btn">
                 Login
             </Link>
-            <Link to="/signup" className="signup-btn">
+            {/* <Link to="/signup" className="signup-btn">
                 Sign Up
-            </Link>
+            </Link> */}
             </div>
         )}
 

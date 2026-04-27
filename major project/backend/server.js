@@ -276,10 +276,34 @@ app.get('/api/categories', (req, res) => {
 // Get health tips
 app.get('/api/health-tips', async (req, res) => {
   try {
+    const pageNum = parseInt(req.query.page) || 1;
+    const limitNum = parseInt(req.query.limit) || 6;
+    const { category } = req.query;
+    const skip = (pageNum - 1) * limitNum;
+    let query = {};
+
+    if (category && category !== 'All') {
+      query.category = {
+        $regex: new RegExp(`^${category}$`, 'i')
+      };
+    }
+
     if (isMongoConnected) {
-      const tips = await HealthTip.find({});
-      res.json({ success: true, data: tips });
+      const tips = await HealthTip.find(query)
+        .skip(skip)
+        .limit(limitNum);
+
+      const total = await HealthTip.countDocuments(query);
+
+      res.json({
+        success: true,
+        data: tips,
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum)
+      });
     } else {
+      // fallback data
       const tips = [
         { id: 1, title: 'Stay Hydrated', content: 'Drink at least 8 glasses of water daily to maintain good health.', category: 'General' },
         { id: 2, title: 'Get Enough Sleep', content: 'Aim for 7-9 hours of sleep per night for optimal health.', category: 'General' },
@@ -290,7 +314,25 @@ app.get('/api/health-tips', async (req, res) => {
         { id: 7, title: 'Regular Check-ups', content: 'Visit your doctor for regular health screenings.', category: 'Prevention' },
         { id: 8, title: 'Limit Sugar Intake', content: 'Reduce consumption of sugary foods and drinks.', category: 'Nutrition' },
       ];
-      res.json({ success: true, data: tips });
+
+      let filtered = tips;
+
+      if (category && category !== 'All') {
+        filtered = tips.filter(
+          tip => tip.category.toLowerCase() === category.toLowerCase()
+        );
+      }
+
+      const start = (pageNum - 1) * limitNum;
+      const paginated = filtered.slice(start, start + limitNum);
+
+      res.json({
+        success: true,
+        data: paginated,
+        total: filtered.length,
+        page: pageNum,
+        totalPages: Math.ceil(filtered.length / limitNum)
+      });
     }
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });

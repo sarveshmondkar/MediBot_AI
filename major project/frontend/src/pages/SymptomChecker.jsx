@@ -6,7 +6,7 @@ import { FaStethoscope, FaSearch, FaPills, FaHeartbeat, FaShieldVirus, FaTimes, 
 import { symptomsList, formatSymptom, diseasesData, getAllDiseases } from '../data';
 
 function SymptomChecker({ onClose }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [predictedDisease, setPredictedDisease] = useState(null);
@@ -14,7 +14,11 @@ function SymptomChecker({ onClose }) {
 
   // Handle close - either call onClose prop or navigate back
   const handleClose = () => {
-  if (onClose) onClose();
+    if (onClose) {
+      onClose();
+    } else {
+      navigate('/'); // go back to home
+    }
   };
 
   // Filter symptoms based on search
@@ -99,12 +103,14 @@ function SymptomChecker({ onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      onClick={handleClose}
     >
       <motion.div 
         className="symptom-checker-container"
         initial={{ scale: 0.9, y: 50 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 50 }}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="symptom-checker-header">
           <div className="header-icon">
@@ -115,7 +121,7 @@ function SymptomChecker({ onClose }) {
             <p>Select your symptoms for personalized recommendations</p>
           </div>
           <button className="close-btn" onClick={handleClose}>
-            <FaTimes />
+            X
           </button>
         </div>
 
@@ -337,10 +343,12 @@ function SymptomChecker({ onClose }) {
           height: 40px;
           border-radius: 50%;
           cursor: pointer;
+          font-weight: bolder;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.2rem;
+
+          font-size: 22px;   /* 🔥 important */
         }
 
         .symptom-checker-body {

@@ -4,17 +4,29 @@ function HealthTips() {
   const [tips, setTips] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+
 
   useEffect(() => {
-    fetchTips();
-  }, []);
+    fetchTips(page, selectedCategory);
+  }, [page, selectedCategory]);
 
-  const fetchTips = async () => {
+  const fetchTips = async (pageNumber = 1, category = selectedCategory) => {
     try {
-      const response = await fetch('/api/health-tips');
+      setLoading(true);
+
+      const query = category !== 'All' 
+        ? `?page=${pageNumber}&limit=9&category=${category}`
+        : `?page=${pageNumber}&limit=9`;
+
+      const response = await fetch(`/api/health-tips${query}`);
       const data = await response.json();
+
       if (data.success) {
         setTips(data.data);
+        setTotalPages(data.totalPages);
       }
     } catch (err) {
       console.error('Error fetching tips:', err);
@@ -23,11 +35,16 @@ function HealthTips() {
     }
   };
 
-  const categories = ['All', ...new Set(tips.map(tip => tip.category))];
+const categories = [
+  'All',
+  'General',
+  'Fitness',
+  'Nutrition',
+  'Hygiene',
+  'Mental Health',
+  'Prevention'
+];
   
-  const filteredTips = selectedCategory === 'All' 
-    ? tips 
-    : tips.filter(tip => tip.category === selectedCategory);
 
   return (
     <div className="health-tips-page">
@@ -42,7 +59,10 @@ function HealthTips() {
             <button
               key={cat}
               className={`tip-category-btn ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setPage(1); // reset page when switching category
+              }}
             >
               {cat}
             </button>
@@ -52,9 +72,10 @@ function HealthTips() {
         {loading ? (
           <div className="loading">Loading tips...</div>
         ) : (
+          <>
           <div className="tips-grid">
-            {filteredTips.map((tip) => (
-              <div key={tip.id} className="tip-card">
+            {tips.map((tip) => (
+              <div key={tip._id} className="tip-card">
                 <div className="tip-icon">
                   {tip.category === 'General' && '🌟'}
                   {tip.category === 'Fitness' && '🏃'}
@@ -69,6 +90,24 @@ function HealthTips() {
               </div>
             ))}
           </div>
+          <div className="pagination">
+            <button 
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+            >
+              ⬅ Prev
+            </button>
+
+            <span>Page {page} of {totalPages}</span>
+
+            <button 
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              Next ➡
+            </button>
+          </div>
+          </>
         )}
       </div>
     </div>
