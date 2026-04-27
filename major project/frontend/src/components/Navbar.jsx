@@ -48,7 +48,7 @@ export default function Navbar({ user, setShowEmergency }) {
         </Link>
 
         <nav className="nav">
-        <Link to="/">Home</Link>
+        <Link to="/" onClick={smoothScrollToTop}>Home</Link>
         <Link to="/symptom-checker">Symptom Checker</Link>
         <Link to="/shop">Shop</Link>
         <Link to="/health-tips">Health Tips</Link>

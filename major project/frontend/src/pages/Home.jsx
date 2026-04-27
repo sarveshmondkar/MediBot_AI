@@ -53,6 +53,27 @@ function Home({ user, onLogin }) {
     }
     };
 
+    const smoothScrollToTop = () => {
+    const start = window.scrollY;
+    const duration = 500; // ms
+    const startTime = performance.now();
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const scroll = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        window.scrollTo(0, start * (1 - easeOutCubic(progress)));
+
+        if (progress < 1) {
+        requestAnimationFrame(scroll);
+        }
+    };
+
+    requestAnimationFrame(scroll);
+    };
+
   return (
     <div className="app">
       {/* Hero Section */}
@@ -304,7 +325,7 @@ function Home({ user, onLogin }) {
           </div>
           <div className="footer-section">
             <h4>Quick Links</h4>
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={smoothScrollToTop}>Home</Link>
             <Link to="/symptom-checker">Symptom Checker</Link>
             <Link to="/shop">Shop</Link>
             <Link to="/health-tips">Health Tips</Link>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate,Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate,Navigate,useLocation } from 'react-router-dom';
 import Layout from "./components/Layout";
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -21,6 +21,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import GroqChatbot from './components/GroqChatbot';
 import EmergencyModal from './components/EmergencyModal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 // Login Component
@@ -30,6 +31,8 @@ function Login({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +51,7 @@ function Login({ onLogin }) {
       if (data.success) {
         onLogin(data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
-        navigate('/');
+        navigate(from, { replace: true });
       } else {
         setError(data.message);
       }
@@ -293,22 +296,60 @@ function App() {
         show={showEmergency} 
         onClose={() => setShowEmergency(false)} 
       />
+
       <Routes>
+
+        {/* Layout with Navbar */}
         <Route element={<Layout user={user} setShowEmergency={setShowEmergency} />}>
-            <Route 
-              path="/" 
-              element={user ? <Home user={user} /> : <Navigate to="/login" />} 
-            />
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/signup" element={<Signup onLogin={handleLogin} />} />
-            <Route path="/shop" element={user ? <Shop user={user} /> : <Login onLogin={handleLogin} />} />
-            <Route path="/cart" element={user ? <Cart user={user} /> : <Login onLogin={handleLogin} />} />
-            <Route path="/orders" element={user ? <Orders user={user} /> : <Login onLogin={handleLogin} />} />
-            <Route path="/profile" element={user ? <Profile user={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />} />
-            <Route path="/health-tips" element={user ? <HealthTips /> : <Login onLogin={handleLogin} />} />
+
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute user={user}>
+                <Home user={user} />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup onLogin={handleLogin} />} />
+
+          {/* ✅ Protected Routes */}
+          <Route path="/shop" element={
+            <ProtectedRoute user={user}>
+              <Shop user={user} />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/cart" element={
+            <ProtectedRoute user={user}>
+              <Cart user={user} />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/orders" element={
+            <ProtectedRoute user={user}>
+              <Orders user={user} />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/profile" element={
+            <ProtectedRoute user={user}>
+              <Profile user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/health-tips" element={
+            <ProtectedRoute user={user}>
+              <HealthTips />
+            </ProtectedRoute>
+          } />
+
         </Route>
-            {/* No navbar here */}
-            <Route path="/symptom-checker" element={<SymptomChecker />} />
+
+        {/* No Navbar */}
+        <Route path="/symptom-checker" element={<SymptomChecker />} />
+
       </Routes>
     </Router>
   );
