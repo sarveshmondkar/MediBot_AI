@@ -128,7 +128,7 @@ function Home({ user, onLogin }) {
             transition={{ delay: 0.5 }}
           >
             <div className="stat">
-              <span className="stat-number">20+</span>
+              <span className="stat-number">200+</span>
               <span className="stat-label">Medicines</span>
             </div>
             <div className="stat">
