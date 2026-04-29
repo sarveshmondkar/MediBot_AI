@@ -11,6 +11,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 5000;
+const API_URL = process.env.API_URL;
 
 // MongoDB Connection URI
 // For local MongoDB: 'mongodb://localhost:27017/medibot'
@@ -21,7 +22,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/medibo
 app.use(cors());
 app.use(express.json());
 app.use(cors({
-  origin: "https://medi-bot-ai.vercel.app/",
+  origin: API_URL,
   credentials: true
 }));
 
