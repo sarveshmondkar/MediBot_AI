@@ -6,7 +6,7 @@ function HealthTips() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const API = import.meta.env.VITE_API_URL;
 
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function HealthTips() {
         ? `?page=${pageNumber}&limit=9&category=${category}`
         : `?page=${pageNumber}&limit=9`;
 
-      const response = await fetch(`/api/health-tips${query}`);
+      const response = await fetch(`${API}/health-tips${query}`);
       const data = await response.json();
 
       if (data.success) {

@@ -6,6 +6,7 @@ function Cart({ user }) {
   const [loading, setLoading] = useState(true);
   const [ordering, setOrdering] = useState(false);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!user) {
@@ -17,7 +18,7 @@ function Cart({ user }) {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch(`/api/cart/${user.id}`);
+      const response = await fetch(`${API}/cart/${user.id}`);
       const data = await response.json();
       if (data.success) {
         setCart(data.data);
@@ -31,7 +32,7 @@ function Cart({ user }) {
 
   const updateQuantity = async (medicineId, quantity) => {
     try {
-      await fetch('/api/cart', {
+      await fetch(`${API}/cart`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId, quantity })
@@ -44,7 +45,7 @@ function Cart({ user }) {
 
   const removeItem = async (medicineId) => {
     try {
-      await fetch('/api/cart', {
+      await fetch(`${API}/cart`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId })
@@ -62,7 +63,7 @@ function Cart({ user }) {
     try {
       const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
       
-      const response = await fetch('/api/orders', {
+      const response = await fetch(`${API}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

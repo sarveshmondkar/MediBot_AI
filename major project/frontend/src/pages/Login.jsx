@@ -7,6 +7,7 @@ function Login({ setIsLoggedIn }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +19,7 @@ function Login({ setIsLoggedIn }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${API}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -34,7 +35,7 @@ function Login({ setIsLoggedIn }) {
         setError(data.message);
       }
     } catch (err) {
-      setError('Connection error. Please make sure backend is running.');
+      setError('Connection error. Please make sure backend is running.',err);
     } finally {
       setLoading(false);
     }

@@ -5,6 +5,7 @@ function Orders({ user }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!user) {
@@ -16,7 +17,7 @@ function Orders({ user }) {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`/api/orders/${user.id}`);
+      const response = await fetch(`${API}/orders/${user.id}`);
       const data = await response.json();
       if (data.success) {
         setOrders(data.data);

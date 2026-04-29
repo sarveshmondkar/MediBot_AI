@@ -14,6 +14,7 @@ function Shop({ user }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get("category");
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchCategories();
@@ -35,7 +36,7 @@ function Shop({ user }) {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories');
+      const response = await fetch(`${API}/categories`);
       const data = await response.json();
       if (data.success) {
         setCategories(['All', ...data.data]);
@@ -60,7 +61,7 @@ function Shop({ user }) {
       params.append('page', page);
       params.append('limit', 21);
       setLoading(true);
-      const response = await fetch(`/api/medicines?${params}`);
+      const response = await fetch(`${API}/medicines?${params}`);
       const data = await response.json();
       console.log("TOTAL PAGES:", data.totalPages);
       if (data.success) {
@@ -84,7 +85,7 @@ function Shop({ user }) {
     }
     
     try {
-      const response = await fetch('/api/cart', {
+      const response = await fetch(`${API}/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId, quantity: 1 })

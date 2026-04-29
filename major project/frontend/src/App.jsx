@@ -13,6 +13,7 @@ import {
 import './App.css';
 import SymptomChecker from './pages/SymptomChecker';
 import GroqChatbot from './components/GroqChatbot';
+const API = import.meta.env.VITE_API_URL;
 
 // Animation variants
 const fadeInUp = {
@@ -64,7 +65,7 @@ function Login({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${API}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -178,7 +179,7 @@ function Signup({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/signup', {
+      const response = await fetch(`${API}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -313,7 +314,7 @@ function Shop({ user }) {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/categories');
+      const response = await fetch(`${API}/categories`);
       const data = await response.json();
       if (data.success) {
         setCategories(['All', ...data.data]);
@@ -333,7 +334,7 @@ function Shop({ user }) {
         params.append('search', searchTerm);
       }
       
-      const response = await fetch(`http://localhost:5000/api/medicines?${params}`);
+      const response = await fetch(`${API}/medicines?${params}`);
       const data = await response.json();
       if (data.success) {
         setMedicines(data.data);
@@ -352,7 +353,7 @@ function Shop({ user }) {
     }
     
     try {
-      const response = await fetch('http://localhost:5000/api/cart', {
+      const response = await fetch(`${API}/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId, quantity: 1 })
@@ -495,7 +496,7 @@ function Cart({ user }) {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${user.id}`);
+      const response = await fetch(`${API}/cart/${user.id}`);
       const data = await response.json();
       if (data.success) {
         setCart(data.data);
@@ -509,7 +510,7 @@ function Cart({ user }) {
 
   const updateQuantity = async (medicineId, quantity) => {
     try {
-      await fetch('http://localhost:5000/api/cart', {
+      await fetch(`${API}/cart`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId, quantity })
@@ -522,7 +523,7 @@ function Cart({ user }) {
 
   const removeItem = async (medicineId) => {
     try {
-      await fetch('http://localhost:5000/api/cart', {
+      await fetch(`${API}/cart`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, medicineId })
@@ -540,7 +541,7 @@ function Cart({ user }) {
     try {
       const total = cart.reduce((sum, item) => sum + (item.medicine?.price || 0) * item.quantity, 0);
       
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -670,7 +671,7 @@ function Orders({ user }) {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+      const response = await fetch(`${API}/orders/${user.id}`);
       const data = await response.json();
       if (data.success) {
         setOrders(data.data);
@@ -767,7 +768,7 @@ function Profile({ user, onLogout }) {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+      const response = await fetch(`${API}/orders/${user.id}`);
       const data = await response.json();
       if (data.success) {
         setOrders(data.data);
@@ -877,7 +878,7 @@ function HealthTips() {
 
   const fetchTips = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/health-tips');
+      const response = await fetch(`${API}/health-tips`);
       const data = await response.json();
       if (data.success) {
         setTips(data.data);
@@ -1066,7 +1067,7 @@ function GeminiChatbot({ isOpen, onClose }) {
 
     try {
       // Call backend API which uses Gemini AI
-      const response = await fetch('http://localhost:5000/api/gemini-chat', {
+      const response = await fetch(`${API}/gemini-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

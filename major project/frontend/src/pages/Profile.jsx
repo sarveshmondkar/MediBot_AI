@@ -20,12 +20,13 @@ function Profile({ user, onLogout }) {
   const [activeField, setActiveField] = useState(null);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const bloodOptions = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
   const fetchOrders = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/orders/${user.id}`);
+    const response = await fetch(`${API}/orders/${user.id}`);
     const data = await response.json();
     if (data.success) {
       setOrders(data.data);
@@ -37,7 +38,7 @@ function Profile({ user, onLogout }) {
 
   const fetchProfile = async () => {
   try {
-      const res = await fetch(`http://localhost:5000/api/profile/${user.id}`);
+      const res = await fetch(`${API}/profile/${user.id}`);
       const data = await res.json();
       console.log("Profile API response:", data);
       if (data.success && data.data) {
@@ -169,7 +170,7 @@ function Profile({ user, onLogout }) {
       }
     };
 
-    const res = await fetch("http://localhost:5000/api/update-health", {
+    const res = await fetch(`${API}/update-health`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)

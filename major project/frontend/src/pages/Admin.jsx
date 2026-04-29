@@ -9,6 +9,7 @@ function Admin() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchData();
@@ -17,9 +18,9 @@ function Admin() {
   const fetchData = async () => {
     try {
       const [usersRes, ordersRes, statsRes] = await Promise.all([
-        fetch('http://localhost:5000/api/admin/users'),
-        fetch('http://localhost:5000/api/admin/orders'),
-        fetch('http://localhost:5000/api/admin/stats')
+        fetch(`${API}/admin/users`),
+        fetch(`${API}/admin/orders`),
+        fetch(`${API}/admin/stats`)
       ]);
 
       const usersData = await usersRes.json();
